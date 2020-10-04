@@ -251,5 +251,6 @@ python3 demo_lm.py --transformer_type distilbert-base-uncased --gpuid [GPUID]
 ```
 
 ## To-dos
+- [ ] Have a logo
 - [ ] Sanity check
 - [ ] Improve namings of some variables to be consistent with the paper.
