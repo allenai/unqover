@@ -8,13 +8,13 @@
 [l_act] xxx	| were full of xxx
 [l_act] xxx	| were full of xxx people
 # negated
-[l_act:neg] xxx	| were full of yyy people
+[l_act:neg] xxx	| were full of yyy
 [l_act:neg] xxx	| were full of yyy people
 
 [l_act-single] xxx		| was full of xxx
 [l_act-single] xxx		| was full of xxx people
 # negated
-[l_act-single:neg] xxx		| was full of yyy people
+[l_act-single:neg] xxx		| was full of yyy
 [l_act-single:neg] xxx		| was full of yyy people
 
 [p_act] xxx	| had a reputation of being xxx
