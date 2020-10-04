@@ -14,7 +14,7 @@ Implementation of our EMNLP 2020 Findings paper: UNQOVERing Stereotypical Biases
 ## Headsup
 
 This repo comes with templates and fillers we used to generate the gender-occupation dataset, as an illustration.
-For the nationality, ethnicity, and religion datasets, since attributes there are mostly offensive statements, we decide not to make them publically visible.
+For the nationality, ethnicity, and religion datasets, since attributes there are mostly offensive statements, we decide not to make them publicly visible.
 Instead, we only present a few dummy examples for the nationality dataset.
 Please contact us for full access.
 
