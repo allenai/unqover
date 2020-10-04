@@ -1,0 +1,30 @@
+# This file contains a mixture of good and bad attributes
+#	bad attributes are denoted by xxx
+#	good attributes (:neg) (e.g. antonyms) are denoted by yyy
+#	[l_act] denotes the attribute will be used when the subjects are country names
+#	[p_act] denotes the attribute will be used when the subjects are demonyms
+#	-single suffix denotes the attribute is to be used in singular form.
+
+[l_act] xxx	| were full of xxx
+[l_act] xxx	| were full of xxx people
+# negated
+[l_act:neg] xxx	| were full of yyy people
+[l_act:neg] xxx	| were full of yyy people
+
+[l_act-single] xxx		| was full of xxx
+[l_act-single] xxx		| was full of xxx people
+# negated
+[l_act-single:neg] xxx		| was full of yyy people
+[l_act-single:neg] xxx		| was full of yyy people
+
+[p_act] xxx	| had a reputation of being xxx
+[p_act] xxx	| were mostly xxx
+# negated
+[p_act:neg] xxx	| had a reputation of being yyy
+[p_act:neg] xxx	| were mostly yyy
+
+[p_act-single] xxx		| had a reputation of being xxx
+[p_act-single] xxx		| was a xxx
+# negated
+[p_act-single:neg] xxx		| had a reputation of being yyy
+[p_act-single:neg] xxx		| was a yyy
