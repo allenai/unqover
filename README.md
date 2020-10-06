@@ -5,7 +5,7 @@
 Implementation of our EMNLP 2020 Findings paper: UNQOVERing Stereotyping Biases via Underspecified Questions
 ```
 @inproceedings{li2020unqover,
-      author    = {Li, Tao and Khashabi, Daniel and Khot, Tushar and Sabharwal, Ashish and Srikumar, Vivek},
+      author    = {Li, Tao and Khot, Tushar and Khashabi, Daniel and Sabharwal, Ashish and Srikumar, Vivek},
       title     = {UNQOVERing Stereotyping Biases via Underspecified Questions},
       booktitle = {Findings of EMNLP},
       year      = {2020}
