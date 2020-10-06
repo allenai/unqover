@@ -1,3 +1,6 @@
+<p align="center"><img width="50%" src="logo.png" /></p>
+
+---
 
 Implementation of our EMNLP 2020 Findings paper: UNQOVERing Stereotypical Biases via Underspecified Questions
 ```
@@ -251,6 +254,6 @@ python3 demo_lm.py --transformer_type distilbert-base-uncased --gpuid [GPUID]
 ```
 
 ## To-dos
-- [ ] Have a logo
+- [x] Have a logo
 - [ ] Sanity check
 - [ ] Improve namings of some variables to be consistent with the paper.
