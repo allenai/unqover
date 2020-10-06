@@ -144,7 +144,7 @@ A caveat for NewsQA is that you might have to hack a bit into HuggingFace's ``ru
 In case this doesn't work, please jump to the Appendix below and look for how to train NewsQA models without the ``run_squad.py`` script.
 
 
-# Evaluation
+# 3. Evaluation
 Here comes the meat. Here is the batched script to run analysis over predicted files from the 15 models on the gender-occupatin data:
 ```
 for DATA in gender lm_gender; do
