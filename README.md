@@ -177,6 +177,10 @@ where the ``--group_by subj_act`` will run analysis over each subject-attribute 
 Alternatively, you can use ``--group_by subj`` to get analysis at subject level.
 
 
+### Visualization
+
+After ``*.log.txt`` files got generated, you can reproduce the plots in the paper by jupyter notebooks located at ``./visualization/``.
+
 # Appendix
 
 ### Training your own QA models via HuggingFace
