@@ -60,7 +60,7 @@ SUBJ=mixed_gender
 SLOT=gender_noact
 ACT=occupation_rev1
 FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
-python3 generate_underspecified_templates.py --template_type ${TYPE} \
+python3 -m templates.generate_underspecified_templates --template_type ${TYPE} \
   --subj $SUBJ --act $ACT --slot $SLOT \
   --output ./data/${FILE}.source.json
 ```
@@ -73,7 +73,7 @@ SUBJ=mixed_gender_roberta
 SLOT=gender_noact_lm
 ACT=occupation_rev1
 FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
-python3 generate_underspecified_templates.py --template_type $TYPE \
+python3 -m templates.generate_underspecified_templates --template_type $TYPE \
   --subj $SUBJ --act $ACT --slot $SLOT \
   --output ./data/${FILE}.source.json
 ```
@@ -86,7 +86,7 @@ SLOT=gender_noact
 ACT=occupation_rev1
 MODEL=newsqa_seqtok
 FILE=slotmap_newsqa_${SUBJ//_}_${ACT//_}_${SLOT//_}
-python3 generate_underspecified_templates.py --template_type ${TYPE} \
+python3 -m templates.generate_underspecified_templates --template_type ${TYPE} \
   --subj $SUBJ --act $ACT --slot $SLOT --filler newsqa \
   --output ./data/${FILE}.source.json
 ```
@@ -99,7 +99,7 @@ SUBJ=country
 SLOT=country_noact
 ACT=biased_country
 FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
-python3 generate_underspecified_templates.py --template_type ${TYPE} \
+python3 -m templates.generate_underspecified_templates --template_type ${TYPE} \
   --subj $SUBJ --act $ACT --slot $SLOT \
   --output ./data/${FILE}.source.json
 ```
@@ -110,7 +110,7 @@ Again, as noted at the top, the attributes at ``./word_lists/biased_country`` ar
 Assuming QA models are already trained via HuggingFace's interfaces, e.g., ``run_squad.py``, we will show how to run trained model over the generated data.
 In case you need to train QA models from scratch, please jump to the Appendix below and look for model training instructions.
 
-**SQuAD** Take the gender-occupation dataset for SQuAD model for example:
+**SQuAD** Assuming a RoBERTa-base SQuAD model is located at ``./data/roberta-base-squad/``, let us use it to predict on the gender-occupation dataset:
 ```
 TYPE=slot_act_map
 SUBJ=mixed_gender
@@ -118,11 +118,11 @@ SLOT=gender_noact
 ACT=occupation_rev1
 FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
 MODEL=./data/roberta-base-squad/
-python3 predict_hf.py --gpuid 1 \
+python3 -m modules_hf.predict --gpuid [GPUID] \
   --hf_model ${MODEL} \
   --input ${FILE}.source.json --output ./data/robertabase_gender.output.json
 ```
-which will dump prediction to a json file which is kinda large (~few GB).
+where ``[GPUID]`` is the device index. A prediction json file will be dumped (kinda large, ~few GB).
 
 **Masked LM** For masked LM, run the following:
 ```
@@ -132,10 +132,10 @@ SLOT=gender_noact_lm
 ACT=occupation_rev1
 FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
 MODEL=roberta-base
-python3 generate_underspecified_templates.py --template_type $TYPE \
+python3 -m templates.generate_underspecified_templates --template_type $TYPE \
   --subj $SUBJ --act $ACT --slot $SLOT \
   --output ./data/${FILE}.source.json
-python3 predict_lm.py --gpuid 1 --transformer_type $MODEL --use_he_she 1 \
+python3 -u -m modules_lm.predict --gpuid 1 --transformer_type $MODEL --use_he_she 1 \
   --input ${FILE}.source.json --output ./data/robertabase_lm_gender.output.json
 ```
 
@@ -188,7 +188,7 @@ First have SQuADv1.1 data (json files) located at ``./data/squad/``.
 Then:
 ```
 export SQUAD_DIR=~/data/squad/
-CUDA_VISIBLE_DEVICES=1 python run_squad.py \
+CUDA_VISIBLE_DEVICES=1 python3 -u run_squad.py \
   --model_type distilbert \
   --model_name_or_path distilbert-base-uncased \
   --do_train \
@@ -220,7 +220,7 @@ GPUID=[GPUID]
 LR=0.00003
 BERT_TYPE=distilbert-base-uncased
 MODEL=data/newsqa_seqtok_distilbert
-python3 -u train.py --gpuid $GPUID --dir data/newsqa/ \
+python3 -u -m modules_qa.train. --gpuid $GPUID --dir data/newsqa/ \
 --transformer_type $BERT_TYPE \
 --train_data newsqa.distilbert.train.hdf5 \
 --train_res newsqa.distilbert.train.tok_answer.txt,newsqa.distilbert.train.context.txt,newsqa.distilbert.train.query_id.txt \
@@ -245,15 +245,15 @@ There is an interactive demo that could come in handy. It will load a trained mo
 
 In case you want to play a bit with trained QA models (the ones trained *without* HuggingFace), you can run, e.g.,:
 ```
-python3 demo.py --load_file ./data/newsqa_seqtok_distilbert --gpuid [GPUID]
+python3 -u -m modules_qa.demo --load_file ./data/newsqa_seqtok_distilbert --gpuid [GPUID]
 ```
 
 For pretrained LM, you can run:
 ```
-python3 demo_lm.py --transformer_type distilbert-base-uncased --gpuid [GPUID]
+python3 -u -m modules_lm.demo --transformer_type distilbert-base-uncased --gpuid [GPUID]
 ```
 
 ## To-dos
 - [x] Have a logo
-- [ ] Sanity check
+- [x] Sanity check
 - [ ] Improve namings of some variables to be consistent with the paper.

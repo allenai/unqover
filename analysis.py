@@ -1,12 +1,12 @@
 import sys
-sys.path.insert(0, './stereotypes')
+sys.path.insert(0, './templates')
 import argparse
 import json
 import scipy
 from scipy import stats
 import numpy as np
 import itertools
-from stereotypes.lists import Lists
+from templates.lists import Lists
 import collections
 import math
 
