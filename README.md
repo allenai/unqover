@@ -227,7 +227,7 @@ We used the version from [here](https://github.com/alontalmor/MultiQA) in SQuAD 
 One way to train your own model is via HuggingFace's ``run_squad.py`` script and adapt it to NewsQA data.
 Another way is doing it without it:
 ```
-python3 preprocess.py --dir ./data/newsqa/ --batch_size 20 --max_seq_l 336 --verbose 0 --transformer_type distilbert-base-uncased --train_data NewsQA_train.json --dev_data NewsQA_dev.json --output newsqa.distilbert
+python3 -u -m qa.preprocess --dir ./data/newsqa/ --batch_size 20 --max_seq_l 336 --verbose 0 --transformer_type distilbert-base-uncased --train_data NewsQA_train.json --dev_data NewsQA_dev.json --output newsqa.distilbert
 
 GPUID=[GPUID]
 LR=0.00003
