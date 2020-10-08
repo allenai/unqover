@@ -35,6 +35,17 @@ mkdir ./data
 ```
 and potentially more packages.
 
+The modules in this repo are structured like this:
+```
+./qa      # code for training and prediction of QA models.
+./qa_hf   # code for predicting using QA models specifically trained via HuggingFace's interfaces (e.g. run_squad.py).
+./lm      # code for predicting using masked language models (LMs) via HuggingFace's transformer interfaces.
+./visualization   # jupyter notebooks for reproducing plots in our paper.
+./templates       # code for dataset generation.
+./word_lists      # items used dataset generation.
+./utils           # some utilities
+```
+
 
 # 1. Dataset Generation
 
