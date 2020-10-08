@@ -11,7 +11,7 @@ import json
 from utils.holder import *
 from utils.extract import get_tokenizer, tokenize_underspecified_input
 from transformers import *
-from .templates.lists import Lists
+from templates.lists import Lists
 
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
@@ -97,6 +97,7 @@ def topk_tokens(opt, mask_filler, batch_seq):
 		for idx, p in zip(predictions.tolist(), values.tolist()):
 			tok = mask_filler.tokenizer.decode(idx).strip()
 			# this is a buggy behavior of bert tokenizer's decoder
+			#	Note this also applies to distilbert
 			if 'bert-base-uncased' in opt.transformer_type or 'bert-large-uncased' in opt.transformer_type:
 				tok = tok.replace(' ', '')
 

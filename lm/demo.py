@@ -67,6 +67,10 @@ def topk_tokens(opt, mask_filler, seq):
 
 		for idx, p in zip(predictions.tolist(), values.tolist()):
 			tok = mask_filler.tokenizer.decode(idx).strip()
+			# this is a buggy behavior of bert tokenizer's decoder
+			#	Note this also applies to distilbert
+			if 'bert-base-uncased' in opt.transformer_type or 'bert-large-uncased' in opt.transformer_type:
+				tok = tok.replace(' ', '')
 			result.append((tok, p))
 
 		# Append
@@ -93,7 +97,7 @@ def main(args):
 	while ongoing:
 		if cnt == 0:
 			print('running an example')
-			seq = 'John went to a market. Mary also went to a market. <mask> bought banana.'
+			seq = 'John went to a market. Mary also went to a market. {0} bought banana.'.format(mask_filler.tokenizer.mask_token)
 			print('seq: ', seq)
 		else:
 			seq = input("seq: ")
