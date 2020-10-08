@@ -271,3 +271,4 @@ python3 -u -m lm.demo --transformer_type distilbert-base-uncased --gpuid [GPUID]
 ## To-dos
 - [x] Have a logo
 - [x] Sanity check
+- [ ] Prediction that uses less memory
