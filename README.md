@@ -246,7 +246,7 @@ It will dump a trained model (in hdf5 format) to the ``./data/`` directory.
 
 Note that the saved model is not in HuggingFace's format, so we need a different prediction step:
 ```
-python3 predict.py --gpuid 1 \
+python3 predict.py --gpuid [GPUID] \
   --load_file data/${MODEL} --transformer_type $BERT_TYPE \
   --input ${FILE}.source.json --output ./data/${OUTPUT}.output.json
 ```
