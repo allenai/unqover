@@ -199,7 +199,8 @@ Say you want to train a DistilBERT model on SQuADv1.1 (without downstream distil
 First have SQuADv1.1 data (json files) located at ``./data/squad/``.
 Then:
 ```
-export SQUAD_DIR=~/data/squad/
+DATA_DIR=/path/to/data/in/this/dir
+SQUAD_DIR=$DATA_DIR/squad/
 CUDA_VISIBLE_DEVICES=1 python3 -u run_squad.py \
   --model_type distilbert \
   --model_name_or_path distilbert-base-uncased \
@@ -215,7 +216,7 @@ CUDA_VISIBLE_DEVICES=1 python3 -u run_squad.py \
   --seed 3435 \
   --do_lower_case \
   --overwrite_cache \
-  --output_dir ~/data/distilbert-base-uncased-squad/
+  --output_dir $DATA_DIR/distilbert-base-uncased-squad/
 ```
 
 ### Training your own QA models without HuggingFace
