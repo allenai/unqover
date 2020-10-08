@@ -206,6 +206,9 @@ CUDA_VISIBLE_DEVICES=1 python3 -u run_squad.py \
   --output_dir $DATA_DIR/distilbert-base-uncased-squad/
 ```
 
+For NewsQA data, you might have to hack the ``run_squad.py`` file a bit to make it run smoothly.
+In case it still doesn't work, you can use the method below.
+
 ### Training your own QA models without HuggingFace's ``run_squad.py``
 Say you want to traina DistilBERT model on NewsQA data (without downstream distillation, i.e. what we used in the paper).
 First have NewsQA data (json files) located at ``./data/newsqa/``.
