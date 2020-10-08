@@ -89,7 +89,7 @@ python3 -m templates.generate_underspecified_templates --template_type $TYPE \
   --output ./data/${FILE}.source.json
 ```
 
-**NewsQA** For NewsQA model, we will use the same setting as in SQuAD models with a domain-specific filler:
+**NewsQA** For NewsQA model, we will use the same setting as in SQuAD models with a domain-specific filler (``--filler``):
 ```
 TYPE=slot_act_map
 SUBJ=mixed_gender
