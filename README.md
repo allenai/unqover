@@ -247,6 +247,7 @@ In case you want to play a bit with trained QA models (the ones trained *without
 ```
 python3 -u -m qa.demo --load_file ./data/newsqa_seqtok_distilbert --gpuid [GPUID]
 ```
+where ``./data/newsqa_seqtok_distilbert`` is the ``hdf5`` model file trained above.
 
 For pretrained LM, you can run:
 ```
