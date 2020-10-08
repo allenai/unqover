@@ -129,7 +129,7 @@ SLOT=gender_noact
 ACT=occupation_rev1
 FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
 MODEL=./data/roberta-base-squad/
-python3 -m hf.predict --gpuid [GPUID] \
+python3 -m qa_hf.predict --gpuid [GPUID] \
   --hf_model ${MODEL} \
   --input ${FILE}.source.json --output ./data/robertabase_gender.output.json
 ```
@@ -143,9 +143,6 @@ SLOT=gender_noact_lm
 ACT=occupation_rev1
 FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
 MODEL=roberta-base
-python3 -m templates.generate_underspecified_templates --template_type $TYPE \
-  --subj $SUBJ --act $ACT --slot $SLOT \
-  --output ./data/${FILE}.source.json
 python3 -u -m lm.predict --gpuid 1 --transformer_type $MODEL --use_he_she 1 \
   --input ${FILE}.source.json --output ./data/robertabase_lm_gender.output.json
 ```
