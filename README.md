@@ -16,11 +16,9 @@ Implementation of our EMNLP 2020 Findings paper: [UNQOVERing Stereotyping Biases
 ---
 ## Headsup
 
-This repo comes with templates and fillers we used to generate the gender-occupation dataset, as an illustration.
-For the nationality, ethnicity, and religion datasets, since attributes there are mostly offensive statements, we decide not to make them publicly visible.
-Instead, we only present a few dummy examples for the nationality dataset.
-Please contact us for full access.
-
+This repo comes with templates and fillers (subjects and attributes) we used to generate underspecified questions for the gender, nationality, ethnicity, and religion datasets;
+and code for training and evaluating QA and LMs.
+*Warning: attributes/activities in this repo are potentially offensive.*
 ---
 
 # Prerequisites
@@ -48,7 +46,7 @@ The modules in this repo are structured like this:
 ```
 
 
-# 1. Dataset Generation
+# 1. Generating Underspecified Questions
 
 The goal here is to generate examples from templates like below:
 ```
@@ -65,7 +63,7 @@ The templates, subjects, and attributes can be found at:
 ./word_lists/activities/
 ```
 
-**SQuAD** Let us spawn the gender-occupation dataset for SQuAD models as an example:
+**SQuAD** Let us generate the gender-occupation dataset for SQuAD models as an example:
 ```
 TYPE=slot_act_map
 SUBJ=mixed_gender
@@ -117,7 +115,7 @@ python3 -m templates.generate_underspecified_templates --template_type ${TYPE} \
 ```
 Again, as noted at the top, the attributes at ``./word_lists/biased_country`` are not publically visible. Please contact us for access if you need them.
 
-# 2. Prediction
+# 2. Predicting on Underspecified Questions
 
 Assuming QA models are already trained via HuggingFace's interfaces, e.g., ``run_squad.py``, we will show how to run trained model over the generated data.
 In case you need to train QA models from scratch, please jump to the Appendix below and look for model training instructions.
@@ -154,8 +152,8 @@ A caveat for NewsQA is that you might have to hack a bit into HuggingFace's ``ru
 In case this doesn't work, please jump to the Appendix below and look for how to train NewsQA models without the ``run_squad.py`` script.
 
 
-# 3. Evaluation
-Here comes the meat. Here is the batched script to run analysis over predicted files from the 15 models on the gender-occupatin data:
+# 3. Aggregating Model Predictions and Extracting Bias Scores
+Here comes the meat. Here is a script to run analysis over predicted files from the 15 models on the gender-occupatin data:
 ```
 for DATA in gender lm_gender; do
 for MODEL in robertabase robertalarge distilbert bertbase bertlarge; do
