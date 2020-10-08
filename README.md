@@ -25,6 +25,7 @@ Please contact us for full access.
 
 # Prerequisites
 ```
+Python3
 Pytorch with cuda
 ujson
 Nvidia Apex
