@@ -119,7 +119,11 @@ python3 -m qa_hf.predict --gpuid [GPUID] \
   --input ${FILE}.source.json --output ./data/robertabase_gender.output.json
 ```
 where ``[GPUID]`` is the device index. A prediction json file will be dumped (kinda large, ~few GB).
-There are few QA models already trained by HuggingFace. To use them just set the ``--hf_model`` to the QA model name.
+There are few QA models already trained by HuggingFace. To use them just set the ``--hf_model`` to the QA model name, e.g.:
+
+```
+--hf_model bert-large-uncased-whole-word-masking-finetuned-squad
+```
 
 **Using masked LMs on gender-occupation data** For masked LM, run the following:
 ```
