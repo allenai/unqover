@@ -151,8 +151,14 @@ for MODEL in newsqa_robertabase newsqa_robertalarge newsqa_distilbert newsqa_ber
 done
 ```
 where the ``--input`` points to the predicted files in json format,
-``--group_by gender_act`` specifies that gendered names will be clustered into binary gender when measuring the association with attributes (i.e. occupations),
-and ``--metrics`` specifies the list of metrics to aggregate.
+``--group_by gender_act`` specifies that gendered names will be clustered into binary gender when measuring the association with attributes (i.e. occupations).
+And ``--metrics`` specifies the list of metrics to aggregate:
+
+```
+subj_bias # aggregate scores into \gamma(x, a).
+subj_position # measure errors about subject positions (\delta score).
+subj_negation # measure errors about attribute negations (\eta score).
+```
 
 **Evaluating on nationality data**
 For nationality dataset, run the following:
