@@ -118,7 +118,7 @@ SLOT=gender_noact
 ACT=occupation_rev1
 FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
 MODEL=./data/roberta-base-squad/
-python3 -m modules_hf.predict --gpuid [GPUID] \
+python3 -m hf.predict --gpuid [GPUID] \
   --hf_model ${MODEL} \
   --input ${FILE}.source.json --output ./data/robertabase_gender.output.json
 ```
@@ -135,7 +135,7 @@ MODEL=roberta-base
 python3 -m templates.generate_underspecified_templates --template_type $TYPE \
   --subj $SUBJ --act $ACT --slot $SLOT \
   --output ./data/${FILE}.source.json
-python3 -u -m modules_lm.predict --gpuid 1 --transformer_type $MODEL --use_he_she 1 \
+python3 -u -m lm.predict --gpuid 1 --transformer_type $MODEL --use_he_she 1 \
   --input ${FILE}.source.json --output ./data/robertabase_lm_gender.output.json
 ```
 
@@ -224,7 +224,7 @@ GPUID=[GPUID]
 LR=0.00003
 BERT_TYPE=distilbert-base-uncased
 MODEL=data/newsqa_seqtok_distilbert
-python3 -u -m modules_qa.train. --gpuid $GPUID --dir data/newsqa/ \
+python3 -u -m qa.train. --gpuid $GPUID --dir data/newsqa/ \
 --transformer_type $BERT_TYPE \
 --train_data newsqa.distilbert.train.hdf5 \
 --train_res newsqa.distilbert.train.tok_answer.txt,newsqa.distilbert.train.context.txt,newsqa.distilbert.train.query_id.txt \
@@ -249,12 +249,12 @@ There is an interactive demo that could come in handy. It will load a trained mo
 
 In case you want to play a bit with trained QA models (the ones trained *without* HuggingFace), you can run, e.g.,:
 ```
-python3 -u -m modules_qa.demo --load_file ./data/newsqa_seqtok_distilbert --gpuid [GPUID]
+python3 -u -m qa.demo --load_file ./data/newsqa_seqtok_distilbert --gpuid [GPUID]
 ```
 
 For pretrained LM, you can run:
 ```
-python3 -u -m modules_lm.demo --transformer_type distilbert-base-uncased --gpuid [GPUID]
+python3 -u -m lm.demo --transformer_type distilbert-base-uncased --gpuid [GPUID]
 ```
 
 ## To-dos
