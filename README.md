@@ -155,7 +155,7 @@ where the ``--input`` points to the predicted files in json format,
 And ``--metrics`` specifies the list of metrics to aggregate:
 
 ```
-subj_bias # aggregate scores into \gamma(x, a).
+subj_bias # aggregate scores into \gamma(x).
 subj_position # measure errors about subject positions (\delta score).
 subj_negation # measure errors about attribute negations (\eta score).
 ```
