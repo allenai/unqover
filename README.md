@@ -25,17 +25,7 @@ and code for training and evaluating QA and LMs.
 ---
 
 # Prerequisites
-```
-Python3
-Pytorch with cuda
-ujson
-Nvidia Apex
-h5py
-HuggingFace transformers
-HuggingFace tokenizers
-mkdir ./data
-```
-and potentially more packages.
+First make a data directory ``mkdir ./data``. All generated data, model predictions, and analysis logs will be dumped there.
 
 The modules in this repo are structured like this:
 ```
@@ -66,7 +56,7 @@ The templates, subjects, and attributes can be found at:
 ./word_lists/activities/
 ```
 
-**SQuAD** Let us generate the gender-occupation dataset for SQuAD models as an example:
+**Gender-occupation for QA models** Let us generate the gender-occupation dataset for QA models as an example:
 ```
 TYPE=slot_act_map
 SUBJ=mixed_gender
@@ -77,9 +67,13 @@ python3 -m templates.generate_underspecified_templates --template_type ${TYPE} \
   --subj $SUBJ --act $ACT --slot $SLOT \
   --output ./data/${FILE}.source.json
 ```
-which will dump the input examples into a json file which is kinda large (~few GB)
+which will dump the input examples into a json file which is kinda large (~few GB).
 
-**Masked LM** For masked LM, we will use a different set of templates and fillers. For instance, dataset for RoBERTa models will use its own set of in-vocabulary subjects:
+While this generation step is model-agnostic, in some special cases it would be helpful to add some domain triggers.
+For instance, when using the NewsQA data released in [Multi-QA](https://github.com/alontalmor/MultiQA), it is very important to add a special header, that widely occurs in the training data, to every example.
+To do that, simply specify ``--filler newsqa`` when calling the ``generate_underspecified_templates`` module.
+
+**Gender-occupation for masked LMs** For masked LM, we will use a different set of templates and fillers. For instance, dataset for RoBERTa models will use its own set of in-vocabulary subjects:
 ```
 TYPE=slot_act_map
 SUBJ=mixed_gender_roberta
@@ -91,20 +85,7 @@ python3 -m templates.generate_underspecified_templates --template_type $TYPE \
   --output ./data/${FILE}.source.json
 ```
 
-**NewsQA** For NewsQA model, we will use the same setting as in SQuAD models with a domain-specific filler (``--filler``):
-```
-TYPE=slot_act_map
-SUBJ=mixed_gender
-SLOT=gender_noact
-ACT=occupation_rev1
-MODEL=newsqa_seqtok
-FILE=slotmap_newsqa_${SUBJ//_}_${ACT//_}_${SLOT//_}
-python3 -m templates.generate_underspecified_templates --template_type ${TYPE} \
-  --subj $SUBJ --act $ACT --slot $SLOT --filler newsqa \
-  --output ./data/${FILE}.source.json
-```
-
-**Other datasets**
+**Datasets other than gender-occupation**
 Other datasets are generated in a very similar way, just change the subjects/attributes/templates files. For reference, here is how to generate the nationality dataset:
 ```
 TYPE=slot_act_map
@@ -122,8 +103,10 @@ Again, as noted at the top, the attributes at ``./word_lists/biased_country`` ar
 
 Assuming QA models are already trained via HuggingFace's interfaces, e.g., ``run_squad.py``, we will show how to run trained model over the generated data.
 In case you need to train QA models from scratch, please jump to the Appendix below and look for model training instructions.
+Here we will use the gender-occupation data as an illustration.
+The same script pattern applies to other datasets.
 
-**SQuAD** Assuming a RoBERTa-base SQuAD model is located at ``./data/roberta-base-squad/``, let us use it to predict on the gender-occupation dataset:
+**Using QA models on gender-occupation data** Assuming a RoBERTa-base SQuAD model is located at ``./data/roberta-base-squad/``, let us use it to predict on the gender-occupation dataset:
 ```
 TYPE=slot_act_map
 SUBJ=mixed_gender
@@ -138,7 +121,7 @@ python3 -m qa_hf.predict --gpuid [GPUID] \
 where ``[GPUID]`` is the device index. A prediction json file will be dumped (kinda large, ~few GB).
 There are few QA models already trained by HuggingFace. To use them just set the ``--hf_model`` to the QA model name.
 
-**Masked LM** For masked LM, run the following:
+**Using masked LMs on gender-occupation data** For masked LM, run the following:
 ```
 TYPE=slot_act_map
 SUBJ=mixed_gender_roberta
@@ -146,16 +129,15 @@ SLOT=gender_noact_lm
 ACT=occupation_rev1
 FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
 MODEL=roberta-base
-python3 -u -m lm.predict --gpuid 1 --transformer_type $MODEL --use_he_she 1 \
+python3 -u -m lm.predict --gpuid [GPUID] --transformer_type $MODEL --use_he_she 1 \
   --input ${FILE}.source.json --output ./data/robertabase_lm_gender.output.json
 ```
-
-**NewsQA & Other Datasets** The script will have the same pattern as above.
-A caveat for NewsQA is that you might have to hack a bit into HuggingFace's ``run_squad.py`` script to make it run smoothly.
-In case this doesn't work, please jump to the Appendix below and look for how to train NewsQA models without the ``run_squad.py`` script.
-
+where ``--use_he_she 1`` specifies that the gendered pronouns (he/she) will be used along with gendered names.
+That is, e.g., the probability of name ``John`` is ``max(P(John), P(he))``.
 
 # 3. Aggregating Model Predictions and Extracting Bias Scores
+
+**Evaluating on gender-occupation data** 
 Here comes the meat. Here is a script to run analysis over predicted files from the 15 models on the gender-occupatin data:
 ```
 for DATA in gender lm_gender; do
@@ -172,6 +154,7 @@ where the ``--input`` points to the predicted files in json format,
 ``--group_by gender_act`` specifies that gendered names will be clustered into binary gender when measuring the association with attributes (i.e. occupations),
 and ``--metrics`` specifies the list of metrics to aggregate.
 
+**Evaluating on nationality data**
 For nationality dataset, run the following:
 ```
 for DATA in country lm_country; do
@@ -187,6 +170,7 @@ done
 where the ``--group_by subj_act`` will run analysis over each subject-attribute pairs.
 Alternatively, you can use ``--group_by subj`` to get analysis at subject level.
 
+The same pattern applies to ethnicity and religion evaluations.
 
 ### Visualization
 

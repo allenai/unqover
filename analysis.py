@@ -1,5 +1,4 @@
 import sys
-sys.path.insert(0, './templates')
 import argparse
 import json
 import scipy
