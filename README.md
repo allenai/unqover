@@ -150,14 +150,20 @@ for MODEL in newsqa_robertabase newsqa_robertalarge newsqa_distilbert newsqa_ber
   python3 analysis.py --metrics subj_bias,subj_position,subj_negation --input ./data/${MODEL}_${DATA}.output.json --group_by gender_act --verbose 1 | tee ./data/${MODEL}_${DATA}.log.txt
 done
 ```
-where the ``--input`` points to the predicted files in json format,
-``--group_by gender_act`` specifies that gendered names will be clustered into binary gender when measuring the association with attributes (i.e. occupations).
-And ``--metrics`` specifies the list of metrics to aggregate:
+where the ``--input`` points to the predicted files in json format.
+And ``--metrics`` specifies the list of metrics to report:
 
 ```
-subj_bias # aggregate scores into \gamma(x).
+subj_bias     # measure biases about subjects where scores will be aggregated by ``--group_by`` option.
 subj_position # measure errors about subject positions (\delta score).
 subj_negation # measure errors about attribute negations (\eta score).
+```
+
+And the ``--group_by`` specifies that how bias scores (e.g. \gamma) will be aggregated:
+```
+gender_act  # report \gamma(x, a) and \eta(x, a) scores where gendered names will be clustered into binary gender.
+subj_act    # report \gamma(x, a) and \eta(x, a) scores
+subj        # report \gamma(x) scores
 ```
 
 **Evaluating on nationality data**
