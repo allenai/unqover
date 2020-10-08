@@ -233,7 +233,7 @@ GPUID=[GPUID]
 LR=0.00003
 BERT_TYPE=distilbert-base-uncased
 MODEL=data/newsqa_seqtok_distilbert
-python3 -u -m qa.train. --gpuid $GPUID --dir data/newsqa/ \
+python3 -u -m qa.train --gpuid $GPUID --dir data/newsqa/ \
 --transformer_type $BERT_TYPE \
 --train_data newsqa.distilbert.train.hdf5 \
 --train_res newsqa.distilbert.train.tok_answer.txt,newsqa.distilbert.train.context.txt,newsqa.distilbert.train.query_id.txt \
