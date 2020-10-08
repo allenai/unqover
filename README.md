@@ -42,7 +42,7 @@ The modules in this repo are structured like this:
 ./lm      # code for predicting using masked language models (LMs) via HuggingFace's transformer interfaces.
 ./visualization   # jupyter notebooks for reproducing plots in our paper.
 ./templates       # code for dataset generation.
-./word_lists      # items used dataset generation.
+./word_lists      # templates and slot fillers for dataset generation.
 ./utils           # some utilities
 ```
 
