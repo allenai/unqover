@@ -258,7 +258,7 @@ where the ``$FILE`` and ``$OUTPUT`` customized for each data and QA model. Pleas
 
 There is an interactive demo that could come in handy. It will load a trained model, let you type in examples one by one, and predict them.
 
-In case you want to play a bit with trained QA models (the ones trained *without* HuggingFace), you can run, e.g.,:
+In case you want to play a bit with trained QA models (the ones trained *without* HuggingFace's ``run_squad.py``), you can run, e.g.,:
 ```
 python3 -u -m qa.demo --load_file ./data/newsqa_seqtok_distilbert --gpuid [GPUID]
 ```
