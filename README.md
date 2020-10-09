@@ -2,7 +2,7 @@
 
 ---
 
-Implementation of our EMNLP 2020 Findings paper: [UNQOVERing Stereotyping Biases via Underspecified Questions](https://arxiv.org/abs/2010.02428)
+Implementation of our EMNLP 2020 Findings paper: [UnQovering Stereotyping Biases via Underspecified Questions](https://arxiv.org/abs/2010.02428)
 ```
 @inproceedings{li2020unqover,
       author    = {Li, Tao and Khot, Tushar and Khashabi, Daniel and Sabharwal, Ashish and Srikumar, Vivek},
