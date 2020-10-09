@@ -15,7 +15,7 @@ import json
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
 parser.add_argument('--dir', help="Path to the data dir", default="./data/")
-parser.add_argument('--hf_model', help="Name of the huggingface BERT qa model", default="distilbert-base-uncased-distilled-squad")
+parser.add_argument('--hf_model', help="Name of the huggingface BERT qa model", default="")
 parser.add_argument('--input', help="Path to input file.", default="")
 ## pipeline specs
 parser.add_argument('--gpuid', help="The GPU index, if -1 then use CPU", type=int, default=-1)
@@ -36,7 +36,7 @@ def load_input(path):
 		for key, ex in json_data.items():
 			context = ex['context'].strip()
 			choices = [ex['q0']['ans0']['text'].strip(), ex['q0']['ans1']['text'].strip()]
-			questions = [ex['q0']['question'].strip(), ex['q0']['question'].strip()]
+			questions = [ex['q0']['question'].strip(), ex['q1']['question'].strip()]
 			subj0_cluster, subj1_cluster, subj0, subj1, tid, a_cluster, obj0, obj1 = key.strip().split('|')
 			rs.append(((subj0_cluster, subj1_cluster), (subj0, subj1), tid, a_cluster, (obj0, obj1), context, choices, questions))
 	return rs

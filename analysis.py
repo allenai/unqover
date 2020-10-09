@@ -51,7 +51,7 @@ def get_subj_position_inconsistency(opt, data):
 		if (scores[0] * scores[1]) > 0:
 			biased_cnt += 1	# only counting the first question
 	avg_bias /= len(rs)
-	print('{0} / {1} are positionally inconsistent over the two subjects'.format(biased_cnt, len(rs)))
+	print('{0} / {1} are positionally inconsistent (in discrete predictions) over the two subjects'.format(biased_cnt, len(rs)))
 	print('avg position bias {:.4f}'.format(avg_bias))
 
 	print('avg ans probability {:.4f}'.format(sum(all_ans_p) / len(all_ans_p)))

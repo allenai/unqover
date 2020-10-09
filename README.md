@@ -186,7 +186,7 @@ done
 where the ``--group_by subj_act`` will run analysis over each subject-attribute pairs.
 Alternatively, you can use ``--group_by subj`` to get analysis at subject level.
 
-The same pattern applies to ethnicity and religion evaluations.
+The same pattern applies to ethnicity and religion evaluations, just changing the ``--input`` to the corresponding predicted json files.
 
 ### Visualization
 
@@ -228,7 +228,7 @@ In case it still doesn't work, you can use the method below.
 ### Training your own QA models without HuggingFace's ``run_squad.py``
 Say you want to traina DistilBERT model on NewsQA data (without downstream distillation, i.e. what we used in the paper).
 First have NewsQA data (json files) located at ``./data/newsqa/``.
-We used the version from [here](https://github.com/alontalmor/MultiQA) in SQuAD format.
+We used the version from [Multi-QA](https://github.com/alontalmor/MultiQA) in SQuAD format.
 
 One way to train your own model is via HuggingFace's ``run_squad.py`` script and adapt it to NewsQA data.
 Another way is doing it without it:

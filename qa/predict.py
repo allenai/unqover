@@ -46,7 +46,7 @@ def load_input(path):
 		for key, ex in json_data.items():
 			context = ex['context'].strip()
 			choices = [ex['q0']['ans0']['text'].strip(), ex['q0']['ans1']['text'].strip()]
-			questions = [ex['q0']['question'].strip(), ex['q0']['question'].strip()]
+			questions = [ex['q0']['question'].strip(), ex['q1']['question'].strip()]
 			subj0_cluster, subj1_cluster, subj0, subj1, tid, a_cluster, obj0, obj1 = key.strip().split('|')
 			rs.append(((subj0_cluster, subj1_cluster), (subj0, subj1), tid, a_cluster, (obj0, obj1), context, choices, questions))
 	return rs
