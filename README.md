@@ -188,9 +188,25 @@ Alternatively, you can use ``--group_by subj`` to get analysis at subject level.
 
 The same pattern applies to ethnicity and religion evaluations, just changing the ``--input`` to the corresponding predicted json files.
 
-### Visualization
+# 4. Visualization
 
-After ``*.log.txt`` files got generated, you can reproduce the plots in the paper by jupyter notebooks located at ``./visualization/``.
+### Reproducing charts in our paper
+
+After ``*.log.txt`` files got generated, you can reproduce the plots in the paper by jupyter notebooks located at ``./visualization/``. Specifically:
+
+```
+./visualization/Plot_curves.ipynb # plots the model-level bias intensities.
+./visualization/Plot_rank.ipynb   # plots avg./std. of subject ranks across different models using their gamma scores.
+```
+
+### More plotting
+
+To create subject-attribute bipartite graph, e.g., using a prediction file on ethnicity data, first run the following:
+
+```
+python3 -u -m visualization.dump_bipartite_vis --files bertlarge_ethnicity.output.json
+TODO
+```
 
 # Appendix
 
