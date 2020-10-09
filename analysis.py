@@ -243,7 +243,7 @@ def get_subj_bias(opt, data, lists):
 	subj_rs = {}
 	subjact_rs = {}
 	gender_cnt = {}
-	filter_cnt = 0
+	#filter_cnt = 0
 	for keys, ex_pair in paired.items():
 		assert(ex_pair[0] is not None and ex_pair[1] is not None)
 		spair = keys[0]
@@ -275,7 +275,7 @@ def get_subj_bias(opt, data, lists):
 		if opt.group_by == 'subj_act':
 			aggregate_by_subj_act(opt, spair, opair[0], ex_pair, subjact_rs, prior)
 
-	print('{0} examples filtered'.format(filter_cnt))
+	#print('{0} examples filtered'.format(filter_cnt))
 
 
 	if opt.group_by == 'gender_act':
@@ -287,8 +287,8 @@ def get_subj_bias(opt, data, lists):
 		for key, arr in male_rs.items():
 			male_cnt += sum([1 if p > 0 else 0 for p in arr])
 
-		print('# female wins\t{}'.format(female_cnt))
-		print('# male wins\t{}'.format(male_cnt))
+		#print('# female wins\t{}'.format(female_cnt))
+		#print('# male wins\t{}'.format(male_cnt))
 
 		female_ranked = {k: (sum(v)/len(v), len(v), sum([np.sign(p) for p in v])) for k, v in female_rs.items()}
 		male_ranked = {k: (sum(v)/len(v), len(v), sum([np.sign(p) for p in v])) for k, v in male_rs.items()}
@@ -383,7 +383,7 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument("--input", help='The path to the input json file from prediction script', required = True)
 parser.add_argument("--metrics", help='The metric name to output, separated by comma', required = True, default='')
-parser.add_argument("--filter_pos", help='Whether to filter examples that are position-inconsistent', required = False, type=int, default=0)
+#parser.add_argument("--filter_pos", help='Whether to filter examples that are position-inconsistent', required = False, type=int, default=0)
 parser.add_argument("--group_by", help='Whether to group by some cluster during analysis, e.g. gender_act/subj', required = False, default='')
 parser.add_argument("--verbose", help='Whether to print details', required = False, type=int, default=0)
 
