@@ -51,9 +51,9 @@ Attributes (attr): was a hunter; can never be a hunter
 
 The templates, subjects, and attributes can be found at:
 ```
-./word_lists/slots/
-./word_lists/subjects/
-./word_lists/activities/
+./word_lists/slots/       # templates
+./word_lists/subjects/    # subjects
+./word_lists/activities/  # attributes/activities
 ```
 
 **Gender-occupation for QA models** 
