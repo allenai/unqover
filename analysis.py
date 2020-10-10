@@ -396,9 +396,9 @@ print('analyzing file', opt.input)
 metrics = opt.metrics.split(',')
 for metric in metrics:
 	print('******************************** metric: {0}'.format(metric))
-	if metric == 'positional_error':
+	if metric == 'pos_err':
 		get_positional_inconsistency(opt, data)
-	elif metric == 'attributive_error':
+	elif metric == 'attr_err':
 		get_attributive_inconsistency(opt, data)
 	elif metric == 'subj_bias':
 		get_subj_bias(opt, data, lists)
