@@ -70,6 +70,7 @@ python3 -m templates.generate_underspecified_templates --template_type ${TYPE} \
   --output ./data/${FILE}.source.json
 ```
 where the ``--slot``, ``--subj``, and ``--act`` options specify corresponding file names.
+When ``--subj mixed_gender``, the module will look for ``male`` and ``female`` subject files and pair them up, such that each example contains one female name and one male name.
 Generated examples will be dumped into the json file which is kinda large (~few GB).
 
 
@@ -89,7 +90,7 @@ python3 -m templates.generate_underspecified_templates --template_type $TYPE \
   --output ./data/${FILE}.source.json
 ```
 where ``gender_noact_lm`` points to a file under ``./word_lists`` that contains templates for LMs;
-``mixed_gender_roberta`` points to ``male_roberta`` and ``female_roberta`` files, and the ``mixed_`` header specifies genders of subjects in each example is mixed (i.e. one female and one male).
+``mixed_gender_roberta`` points to ``male_roberta`` and ``female_roberta`` files.
 
 **Non-gender datasets for QA models**
 
@@ -104,7 +105,6 @@ python3 -m templates.generate_underspecified_templates --template_type ${TYPE} \
   --subj $SUBJ --act $ACT --slot $SLOT \
   --output ./data/${FILE}.source.json
 ```
-
 
 **Non-gender datasets for masked LMs**
 
