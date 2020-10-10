@@ -56,7 +56,9 @@ The templates, subjects, and attributes can be found at:
 ./word_lists/activities/
 ```
 
-**Gender-occupation for QA models** Let us generate the gender-occupation dataset for QA models as an example:
+**Gender-occupation for QA models** 
+
+Let us generate the gender-occupation dataset for QA models as an example:
 ```
 TYPE=slot_act_map
 SUBJ=mixed_gender
@@ -67,13 +69,13 @@ python3 -m templates.generate_underspecified_templates --template_type ${TYPE} \
   --subj $SUBJ --act $ACT --slot $SLOT \
   --output ./data/${FILE}.source.json
 ```
-which will dump the input examples into a json file which is kinda large (~few GB).
+where the ``--slot``, ``--subj``, and ``--act`` options specify corresponding file names.
+Generated examples will be dumped into the json file which is kinda large (~few GB).
 
-While this generation step is model-agnostic, in some special cases it would be helpful to add some domain triggers.
-For instance, when using the NewsQA data released in [Multi-QA](https://github.com/alontalmor/MultiQA), it is very important to add a special header, that widely occurs in the training data, to every example.
-To do that, simply specify ``--filler newsqa`` when calling the ``generate_underspecified_templates`` module.
 
-**Gender-occupation for masked LMs** For masked LM, we will use a different set of templates and fillers. 
+**Gender-occupation for masked LMs** 
+
+For masked LM, we will use a different set of templates and fillers. 
 Special thing here is that we want the subjects to be single-wordpiece tokens, and templates are modified to incorporate *mask*.
 For instance:
 ```
@@ -90,6 +92,7 @@ where ``gender_noact_lm`` points to a file under ``./word_lists`` that contains 
 ``mixed_gender_roberta`` points to ``male_roberta`` and ``female_roberta`` files, and the ``mixed_`` header specifies genders of subjects in each example is mixed (i.e. one female and one male).
 
 **Non-gender datasets for QA models**
+
 Other datasets are generated in a very similar way, just change the subjects/attributes/templates files. For reference, here is how to generate the nationality dataset:
 ```
 TYPE=slot_act_map
@@ -101,9 +104,10 @@ python3 -m templates.generate_underspecified_templates --template_type ${TYPE} \
   --subj $SUBJ --act $ACT --slot $SLOT \
   --output ./data/${FILE}.source.json
 ```
-Again, as noted at the top, the attributes at ``./word_lists/biased_country`` are not publically visible. Please contact us for access if you need them.
+
 
 **Non-gender datasets for masked LMs**
+
 Similar as above, simply point the ``--subj`` and ``--slot`` options to the right files. For instance:
 ```
 TYPE=slot_act_map
@@ -118,6 +122,11 @@ python3 -m templates.generate_underspecified_templates --template_type $TYPE \
 where ``country_roberta`` points to a file that contains single-wordpiece country names for RoBERTa models.
 for BERT (including DistilBERT, base and large), use ``country_bert`` instead.
 
+**Special stepup for NewsQA models**
+
+While this generation step is model-agnostic, in some special cases it would be helpful to add some domain triggers.
+For instance, when using the NewsQA data released in [Multi-QA](https://github.com/alontalmor/MultiQA), it is very important to add a special header, that widely occurs in the training data, to every example.
+To do that, simply specify ``--filler newsqa`` when calling the ``generate_underspecified_templates`` module.
 
 # 2. Predicting on Underspecified Questions
 
@@ -126,7 +135,9 @@ In case you need to train QA models from scratch, please jump to the Appendix be
 Here we will use the gender-occupation data as an illustration.
 The same script pattern applies to other datasets.
 
-**Using QA models on gender-occupation data** Assuming a RoBERTa-base SQuAD model is located at ``./data/roberta-base-squad/``, let us use it to predict on the gender-occupation dataset:
+**Using QA models on gender-occupation data** 
+
+Assuming a RoBERTa-base SQuAD model is located at ``./data/roberta-base-squad/``, let us use it to predict on the gender-occupation dataset:
 ```
 TYPE=slot_act_map
 SUBJ=mixed_gender
@@ -145,7 +156,9 @@ There are few QA models already trained by HuggingFace. To use them just set the
 --hf_model bert-large-uncased-whole-word-masking-finetuned-squad
 ```
 
-**Using masked LMs on gender-occupation data** For masked LM, run the following:
+**Using masked LMs on gender-occupation data** 
+
+For masked LM, run the following:
 ```
 TYPE=slot_act_map
 SUBJ=mixed_gender_roberta
@@ -162,6 +175,7 @@ That is, e.g., the probability of name ``John`` is ``max(P(John), P(he))``.
 # 3. Aggregating Model Predictions and Extracting Bias Scores
 
 **Evaluating on gender-occupation data** 
+
 Here comes the meat. Here is a script to run analysis over predicted files from the 15 models on the gender-occupatin data:
 ```
 for DATA in gender lm_gender; do
@@ -191,6 +205,7 @@ subj        # report \gamma(x) scores
 ```
 
 **Evaluating on nationality data**
+
 For nationality dataset, run the following:
 ```
 for DATA in country lm_country; do
