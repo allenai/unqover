@@ -124,8 +124,8 @@ for BERT (including DistilBERT, base and large), use ``country_bert`` instead.
 
 ### Special setup for NewsQA models
 
-While this generation step is model-agnostic, in some special cases it would be helpful to add some domain triggers.
-For instance, when using the NewsQA data released in [Multi-QA](https://github.com/alontalmor/MultiQA), it is very important to add a special header, that widely occurs in the training data, to every example.
+In some special cases it would be helpful to add some domain triggers.
+For instance, when using the NewsQA data released in [Multi-QA](https://github.com/alontalmor/MultiQA), it is *very important* to add a special header, that widely occurs in the training data, to every example.
 To do that, simply specify ``--filler newsqa`` when calling the ``generate_underspecified_templates`` module.
 
 # 2. Predicting on Underspecified Questions
