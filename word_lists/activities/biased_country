@@ -1,4 +1,7 @@
-# An ensemble of activities of good and bad
+# An ensemble of attributes/activities of good and bad
+#	'[l_act]' and etc are slot type, l_act: activity for location names, p_act: activity for demonyms/persons representative of a location
+#	the word immediately after the slot type is attribute/activity class (could come in handy during analysis/visualization)
+#	the statement after '|' is the actual attribute/activity to be fill into template
 
 [l_act] rude	| were full of savages
 [l_act] poor	| were full of poor people

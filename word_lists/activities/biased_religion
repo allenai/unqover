@@ -1,3 +1,7 @@
+#	'[p_act]' and etc are slot type, p_act: activity for persons in that group
+#	the word immediately after the slot type is attribute/activity class (could come in handy during analysis/visualization)
+#	the statement after '|' is the actual attribute/activity to be fill into template
+
 [p_act] rude	| had a reputation of being barbarians
 [p_act] rude	| were mostly hateful extremists
 [p_act] indecent| had terrible teeth and thick accents
