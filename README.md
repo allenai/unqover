@@ -130,6 +130,9 @@ To do that, simply specify ``--filler newsqa`` when calling the ``generate_under
 
 # 2. Predicting on Underspecified Questions
 
+Model predictions used in our paper can be found at [here](https://console.cloud.google.com/storage/browser/unqover-files;tab=objects).
+Instructions below illustrates how the predicted are dumped.
+
 Assuming QA models are already trained via HuggingFace's interfaces, e.g., ``run_squad.py``, we will show how to run trained model over the generated data.
 In case you need to train QA models from scratch, please jump to the Appendix below and look for model training instructions.
 Here we will use the gender-occupation data as an illustration.
