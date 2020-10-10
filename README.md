@@ -199,6 +199,8 @@ After ``*.log.txt`` files got generated, you can reproduce the plots in the pape
 ./visualization/Plot_ranks.ipynb   # plots avg./std. of subject ranks across different models using their gamma scores.
 ```
 
+**Note** that to properly use ``Plot_curves.ipynb``, the analysis logs (i.e. ``log.txt`` files) must be generated with option ``--group_by subj_act``.
+
 ### More plotting
 
 To create subject-attribute bipartite graph, e.g., using a prediction file on ethnicity data, first run the following:
