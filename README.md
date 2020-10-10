@@ -122,7 +122,7 @@ python3 -m templates.generate_underspecified_templates --template_type $TYPE \
 where ``country_roberta`` points to a file that contains single-wordpiece country names for RoBERTa models.
 for BERT (including DistilBERT, base and large), use ``country_bert`` instead.
 
-### Special stepup for NewsQA models
+### Special setup for NewsQA models
 
 While this generation step is model-agnostic, in some special cases it would be helpful to add some domain triggers.
 For instance, when using the NewsQA data released in [Multi-QA](https://github.com/alontalmor/MultiQA), it is very important to add a special header, that widely occurs in the training data, to every example.
