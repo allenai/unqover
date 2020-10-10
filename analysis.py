@@ -300,9 +300,9 @@ def get_subj_bias(opt, data, lists):
 		if opt.verbose == 1:
 			print('subj\tattr\tgamma\teta\t#ex')
 			print('------------------------------')
-			for act, score, l, cnt0, cnt1, cnt2 in female_ranked:
+			for act, score, l, cnt0 in female_ranked:
 				print('female\t{0}\t{1:.4f}\t{2:.4f}\t{3}'.format(act, score, cnt0/l, l))
-			for act, score, l, cnt0, cnt1, cnt2 in male_ranked:
+			for act, score, l, cnt0 in male_ranked:
 				print('male\t{0}\t{1:.4f}\t{2:.4f}\t{3}'.format(act, score, cnt0/l, l))
 			print('------------------------------')
 
