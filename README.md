@@ -56,7 +56,7 @@ The templates, subjects, and attributes can be found at:
 ./word_lists/activities/  # attributes/activities
 ```
 
-**Gender-occupation for QA models** 
+### Gender-occupation for QA models
 
 Let us generate the gender-occupation dataset for QA models as an example:
 ```
@@ -74,7 +74,7 @@ When ``--subj mixed_gender``, the module will look for ``male`` and ``female`` s
 Generated examples will be dumped into the json file which is kinda large (~few GB).
 
 
-**Gender-occupation for masked LMs** 
+### Gender-occupation for masked LMs
 
 For masked LM, we will use a different set of templates and fillers. 
 Special thing here is that we want the subjects to be single-wordpiece tokens, and templates are modified to incorporate *mask*.
@@ -92,7 +92,7 @@ python3 -m templates.generate_underspecified_templates --template_type $TYPE \
 where ``gender_noact_lm`` points to a file under ``./word_lists`` that contains templates for LMs;
 ``mixed_gender_roberta`` points to ``male_roberta`` and ``female_roberta`` files.
 
-**Non-gender datasets for QA models**
+### Non-gender datasets for QA models
 
 Other datasets are generated in a very similar way, just change the subjects/attributes/templates files. For reference, here is how to generate the nationality dataset:
 ```
@@ -106,7 +106,7 @@ python3 -m templates.generate_underspecified_templates --template_type ${TYPE} \
   --output ./data/${FILE}.source.json
 ```
 
-**Non-gender datasets for masked LMs**
+### Non-gender datasets for masked LMs
 
 Similar as above, simply point the ``--subj`` and ``--slot`` options to the right files. For instance:
 ```
@@ -122,7 +122,7 @@ python3 -m templates.generate_underspecified_templates --template_type $TYPE \
 where ``country_roberta`` points to a file that contains single-wordpiece country names for RoBERTa models.
 for BERT (including DistilBERT, base and large), use ``country_bert`` instead.
 
-**Special stepup for NewsQA models**
+### Special stepup for NewsQA models
 
 While this generation step is model-agnostic, in some special cases it would be helpful to add some domain triggers.
 For instance, when using the NewsQA data released in [Multi-QA](https://github.com/alontalmor/MultiQA), it is very important to add a special header, that widely occurs in the training data, to every example.
@@ -135,7 +135,7 @@ In case you need to train QA models from scratch, please jump to the Appendix be
 Here we will use the gender-occupation data as an illustration.
 The same script pattern applies to other datasets.
 
-**Using QA models on gender-occupation data** 
+### Using QA models on gender-occupation data
 
 Assuming a RoBERTa-base SQuAD model is located at ``./data/roberta-base-squad/``, let us use it to predict on the gender-occupation dataset:
 ```
@@ -156,7 +156,7 @@ There are few QA models already trained by HuggingFace. To use them just set the
 --hf_model bert-large-uncased-whole-word-masking-finetuned-squad
 ```
 
-**Using masked LMs on gender-occupation data** 
+### Using masked LMs on gender-occupation data
 
 For masked LM, run the following:
 ```
@@ -174,7 +174,7 @@ That is, e.g., the probability of name ``John`` is ``max(P(John), P(he))``.
 
 # 3. Aggregating Model Predictions and Extracting Bias Scores
 
-**Evaluating on gender-occupation data** 
+### Evaluating on gender-occupation data
 
 Here comes the meat. Here is a script to run analysis over predicted files from the 15 models on the gender-occupatin data:
 ```
@@ -204,7 +204,7 @@ subj_act    # report \gamma(x, a) and \eta(x, a) scores
 subj        # report \gamma(x) scores
 ```
 
-**Evaluating on nationality data**
+### Evaluating on nationality data
 
 For nationality dataset, run the following:
 ```
