@@ -248,8 +248,6 @@ TODO
 # Appendix
 
 ### Training your own QA models via HuggingFace
-Note that HuggingFace provided a few SQuAD models already trained. You can directly use them for the prediction step above.
-This section is for models that are not provided officially by HuggingFace.
 
 Say you want to train a DistilBERT model on SQuADv1.1 (without downstream distillation, i.e. what we used in the paper).
 First have SQuADv1.1 data (json files) located at ``./data/squad/``.
