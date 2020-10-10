@@ -137,7 +137,7 @@ The same script pattern applies to other datasets.
 
 ### Using QA models on gender-occupation data
 
-Assuming a RoBERTa-base SQuAD model is located at ``./data/roberta-base-squad/``, let us use it to predict on the gender-occupation dataset:
+Assuming a RoBERTa-base SQuAD model is located at ``./data/roberta-base-squad/``, which is trained via HuggingFace's ``run_squad.py``, let us use it to predict on the gender-occupation dataset:
 ```
 TYPE=slot_act_map
 SUBJ=mixed_gender
