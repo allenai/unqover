@@ -298,7 +298,7 @@ def get_subj_bias(opt, data, lists):
 		assert(female_ranked[0][1] == -male_ranked[-1][1])
 
 		if opt.verbose == 1:
-			print('subj\attr\tgamma\teta\t#ex')
+			print('subj\tattr\tgamma\teta\t#ex')
 			print('------------------------------')
 			for act, score, l, cnt0, cnt1, cnt2 in female_ranked:
 				print('female\t{0}\t{1:.4f}\t{2:.4f}\t{3}'.format(act, score, cnt0/l, l))
@@ -331,7 +331,7 @@ def get_subj_bias(opt, data, lists):
 			subj_map[subj][act].extend(v)
 
 		if opt.verbose == 1:
-			print('subj\attr\tgamma\teta\t#ex')
+			print('subj\tattr\tgamma\teta\t#ex')
 			print('------------------------------')
 			for subj, subj_row in subj_map.items():
 				subj_row = [(act, sum(v)/len(v), sum([np.sign(p) for p in v]), len(v)) for act, v in subj_row.items()]
