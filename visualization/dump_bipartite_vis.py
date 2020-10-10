@@ -6,6 +6,10 @@ from tqdm import tqdm
 from os import listdir
 from os.path import isfile, join
 
+"""
+This module dumps count-based metric (i.e. eta score) given a prediction json file
+"""
+
 
 def get_scores(question):
     ans0 = question["ans0"]
