@@ -255,9 +255,10 @@ Say you want to train a DistilBERT model on SQuADv1.1 (without downstream distil
 First have SQuADv1.1 data (json files) located at ``./data/squad/``.
 Then:
 ```
+GPUID=[GPUID]
 DATA_DIR=/path/to/data/in/this/dir
 SQUAD_DIR=$DATA_DIR/squad/
-CUDA_VISIBLE_DEVICES=1 python3 -u run_squad.py \
+CUDA_VISIBLE_DEVICES=$GPUID python3 -u run_squad.py \
   --model_type distilbert \
   --model_name_or_path distilbert-base-uncased \
   --do_train \
