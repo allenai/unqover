@@ -73,7 +73,9 @@ While this generation step is model-agnostic, in some special cases it would be 
 For instance, when using the NewsQA data released in [Multi-QA](https://github.com/alontalmor/MultiQA), it is very important to add a special header, that widely occurs in the training data, to every example.
 To do that, simply specify ``--filler newsqa`` when calling the ``generate_underspecified_templates`` module.
 
-**Gender-occupation for masked LMs** For masked LM, we will use a different set of templates and fillers. For instance, dataset for RoBERTa models will use its own set of in-vocabulary subjects:
+**Gender-occupation for masked LMs** For masked LM, we will use a different set of templates and fillers. 
+Special thing here is that we want the subjects to be single-wordpiece tokens, and templates are modified to incorporate *mask*.
+For instance:
 ```
 TYPE=slot_act_map
 SUBJ=mixed_gender_roberta
@@ -84,8 +86,10 @@ python3 -m templates.generate_underspecified_templates --template_type $TYPE \
   --subj $SUBJ --act $ACT --slot $SLOT \
   --output ./data/${FILE}.source.json
 ```
+where ``gender_noact_lm`` points to a file under ``./word_lists`` that contains templates for LMs;
+``mixed_gender_roberta`` points to ``male_roberta`` and ``female_roberta`` files, and the ``mixed_`` header specifies genders of subjects in each example is mixed (i.e. one female and one male).
 
-**Datasets other than gender-occupation**
+**Non-gender datasets for QA models**
 Other datasets are generated in a very similar way, just change the subjects/attributes/templates files. For reference, here is how to generate the nationality dataset:
 ```
 TYPE=slot_act_map
@@ -98,6 +102,22 @@ python3 -m templates.generate_underspecified_templates --template_type ${TYPE} \
   --output ./data/${FILE}.source.json
 ```
 Again, as noted at the top, the attributes at ``./word_lists/biased_country`` are not publically visible. Please contact us for access if you need them.
+
+**Non-gender datasets for masked LMs**
+Similar as above, simply point the ``--subj`` and ``--slot`` options to the right files. For instance:
+```
+TYPE=slot_act_map
+SUBJ=country_roberta
+SLOT=country_noact_lm
+ACT=biased_country
+FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
+python3 -m templates.generate_underspecified_templates --template_type $TYPE \
+  --subj $SUBJ --act $ACT --slot $SLOT \
+  --output ./data/${FILE}.source.json
+```
+where ``country_roberta`` points to a file that contains single-wordpiece country names for RoBERTa models.
+for BERT (including DistilBERT, base and large), use ``country_bert`` instead.
+
 
 # 2. Predicting on Underspecified Questions
 
