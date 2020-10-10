@@ -278,7 +278,7 @@ For NewsQA data, you might have to hack the ``run_squad.py`` file a bit to make 
 In case it still doesn't work, you can use the method below.
 
 ### Training your own QA models without HuggingFace's ``run_squad.py``
-Say you want to traina DistilBERT model on NewsQA data (without downstream distillation, i.e. what we used in the paper).
+Say you want to train a DistilBERT model on NewsQA data (without downstream distillation, i.e. what we used in the paper).
 First have NewsQA data (json files) located at ``./data/newsqa/``.
 We used the version from [Multi-QA](https://github.com/alontalmor/MultiQA) in SQuAD format.
 Then run:
