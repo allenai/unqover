@@ -245,9 +245,7 @@ In case it still doesn't work, you can use the method below.
 Say you want to traina DistilBERT model on NewsQA data (without downstream distillation, i.e. what we used in the paper).
 First have NewsQA data (json files) located at ``./data/newsqa/``.
 We used the version from [Multi-QA](https://github.com/alontalmor/MultiQA) in SQuAD format.
-
-One way to train your own model is via HuggingFace's ``run_squad.py`` script and adapt it to NewsQA data.
-Another way is doing it without it:
+Then run:
 ```
 python3 -u -m qa.preprocess --dir ./data/newsqa/ --batch_size 20 --max_seq_l 336 --verbose 0 --transformer_type distilbert-base-uncased --train_data NewsQA_train.json --dev_data NewsQA_dev.json --output newsqa.distilbert
 
