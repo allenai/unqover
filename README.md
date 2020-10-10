@@ -196,7 +196,7 @@ After ``*.log.txt`` files got generated, you can reproduce the plots in the pape
 
 ```
 ./visualization/Plot_curves.ipynb # plots the model-level bias intensities.
-./visualization/Plot_rank.ipynb   # plots avg./std. of subject ranks across different models using their gamma scores.
+./visualization/Plot_ranks.ipynb   # plots avg./std. of subject ranks across different models using their gamma scores.
 ```
 
 ### More plotting
