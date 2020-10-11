@@ -131,7 +131,14 @@ To do that, simply specify ``--filler newsqa`` when calling the ``generate_under
 # 2. Predicting on Underspecified Questions
 
 Model predictions used in our paper can be found at [here](https://console.cloud.google.com/storage/browser/unqover-files;tab=objects).
-You can download those json files and put them under ``./data/`` (with no intermediate directory) and start evaluation and visualization.
+You can download those json files and put them under ``./data/``
+```
+cd ./data/
+pip install gsutil
+gsutil -m cp -R gs://unqover-files/model_outputs/*  .
+```
+After downloading, you can start evaluation and visualization.
+
 Instructions below illustrate how to dump those predictions.
 
 Assuming QA models are already trained via HuggingFace's interfaces, e.g., ``run_squad.py``, we will show how to run trained model over the generated data.
