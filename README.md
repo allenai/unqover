@@ -314,7 +314,7 @@ python3 predict.py --gpuid [GPUID] \
 ```
 where the ``$FILE`` and ``$OUTPUT`` customized for each data and QA model. Please refer to the Section **Prediction** above.
 
-### Interactive Demo
+### Interactive Demo of QA and masked LM
 
 There is an interactive demo that could come in handy. It will load a trained model, let you type in examples one by one, and predict them.
 
