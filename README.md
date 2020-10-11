@@ -197,7 +197,7 @@ And ``--metrics`` specifies the list of metrics to report:
 ```
 subj_bias   # measure biases about subjects where scores will be aggregated by ``--group_by`` option.
 pos_err     # measure errors about subject positions (\delta score).
-attr_err    # measure errors about attribute negations (\eta score).
+attr_err    # measure errors about attribute negations (\epsilon score).
 ```
 
 And the ``--group_by`` specifies that how bias scores (e.g. \gamma) will be aggregated:
