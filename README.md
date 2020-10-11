@@ -17,7 +17,7 @@ Implementation of our EMNLP 2020 Findings paper: [UnQovering Stereotyping Biases
 ## Headsup
 
 This repo comes with templates and fillers (subjects and attributes) we used to generate underspecified questions for the gender, nationality, ethnicity, and religion datasets;
-and code for training and evaluating QA and LMs.
+and code for training and evaluating QA and LMs. You can also try our [visualization demo](https://unqover.apps.allenai.org/).
 ```diff
 - Warning: attributes/activities in this repo are potentially offensive.
 ```
