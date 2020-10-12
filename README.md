@@ -47,7 +47,7 @@ cd ./data/
 pip install gsutil
 gsutil -m cp -R gs://unqover-files/model_outputs/*  .
 ```
-After downloading, you can jump to the [Part 3](#3.-Aggregating-Bias-Scores) and [Part 4](#4.-Visualization) of this readme for evaluation and visualization.
+After downloading, you can jump to the [Part 3](#evaluation) and [Part 4](#visualizaiton) of this readme for evaluation and visualization.
 
 
 # 1. Generating Underspecified Questions
@@ -185,6 +185,7 @@ python3 -u -m lm.predict --gpuid [GPUID] --transformer_type $MODEL --use_he_she 
 where ``--use_he_she 1`` specifies that the gendered pronouns (he/she) will be used along with gendered names.
 That is, e.g., the probability of name ``John`` is ``max(P(John), P(he))``.
 
+<a name="evaluation"></a>
 # 3. Aggregating Bias Scores
 
 ### Evaluating on gender-occupation data
@@ -236,6 +237,7 @@ Alternatively, you can use ``--group_by subj`` to get analysis at subject level.
 
 The same pattern applies to ethnicity and religion evaluations, just changing the ``--input`` to the corresponding predicted json files.
 
+<a name="visualization"></a>
 # 4. Visualization
 
 ### Reproducing charts in our paper
