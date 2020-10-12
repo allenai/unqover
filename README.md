@@ -24,8 +24,6 @@ and code for training and evaluating QA and LMs. You can also try our [visualiza
 
 ---
 
-
-## Prerequisites
 First make a data directory ``mkdir ./data``. All generated data, model predictions, and analysis logs will be dumped there.
 
 The modules in this repo are structured like this:
