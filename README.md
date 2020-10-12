@@ -152,7 +152,8 @@ To do that, simply specify ``--filler newsqa`` when calling the ``generate_under
 This step covers how to use trained models to predict on the underspecified examples (``source.json``). Results will be saved as ``output.json`` files at ``./data/``.
 
 Assuming QA models are already trained via HuggingFace's interfaces, e.g., ``run_squad.py``, we will show how to run trained model over the generated data.
-In case you need to train QA models from scratch, please jump to the Appendix below and look for model training instructions.
+In case you need to train QA models from scratch, please jump to the [Appendix](#appendix) below and look for model training instructions.
+
 Here we will use the gender-occupation data as an illustration.
 The same script pattern applies to other datasets.
 
