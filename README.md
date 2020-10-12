@@ -24,7 +24,8 @@ and code for training and evaluating QA and LMs. You can also try our [visualiza
 
 ---
 
-# Prerequisites
+
+## Prerequisites
 First make a data directory ``mkdir ./data``. All generated data, model predictions, and analysis logs will be dumped there.
 
 The modules in this repo are structured like this:
@@ -37,6 +38,16 @@ The modules in this repo are structured like this:
 ./word_lists      # templates and slot fillers for dataset generation.
 ./utils           # some utilities
 ```
+
+## Instructions for Reproduction
+
+To reproduce our results in the paper, you can simply download model predictions from [here](https://console.cloud.google.com/storage/browser/unqover-files;tab=objects) and put them under ``./data/``:
+```
+cd ./data/
+pip install gsutil
+gsutil -m cp -R gs://unqover-files/model_outputs/*  .
+```
+After downloading, you can jump to the [Part 3](#3.-Aggregating-Bias-Scores) and [Part 4](#4.-Visualization) of this readme for evaluation and visualization.
 
 
 # 1. Generating Underspecified Questions
@@ -130,15 +141,6 @@ To do that, simply specify ``--filler newsqa`` when calling the ``generate_under
 
 # 2. Predicting on Underspecified Questions
 
-Model predictions used in our paper can be found at [here](https://console.cloud.google.com/storage/browser/unqover-files;tab=objects).
-You can download those json files and put them under ``./data/``
-```
-cd ./data/
-pip install gsutil
-gsutil -m cp -R gs://unqover-files/model_outputs/*  .
-```
-After downloading, you can start evaluation and visualization.
-
 Instructions below illustrate how to dump those predictions.
 
 Assuming QA models are already trained via HuggingFace's interfaces, e.g., ``run_squad.py``, we will show how to run trained model over the generated data.
@@ -183,7 +185,7 @@ python3 -u -m lm.predict --gpuid [GPUID] --transformer_type $MODEL --use_he_she 
 where ``--use_he_she 1`` specifies that the gendered pronouns (he/she) will be used along with gendered names.
 That is, e.g., the probability of name ``John`` is ``max(P(John), P(he))``.
 
-# 3. Aggregating Model Predictions and Extracting Bias Scores
+# 3. Aggregating Bias Scores
 
 ### Evaluating on gender-occupation data
 
