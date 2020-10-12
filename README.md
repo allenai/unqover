@@ -47,7 +47,7 @@ cd ./data/
 pip install gsutil
 gsutil -m cp -R gs://unqover-files/model_outputs/*  .
 ```
-After downloading, you can jump to the [Part 3](#evaluation) and [Part 4](#visualizaton) of this readme for evaluation and visualization.
+After downloading, you can jump to the [Part 3](#evaluation) and [Part 4](#visualization) of this readme for evaluation and visualization.
 
 
 # 1. Generating Underspecified Questions
