@@ -50,15 +50,16 @@ After downloading, you can jump to the [Part 3](#evaluation) and [Part 4](#visua
 
 # 1. Generating Underspecified Questions
 
-The goal here is to generate examples from templates like below:
+This step covers how to generate underspecified examples (``source.json``) to be located at ``./data/``.
+
+Our template looks like:
 ```
 Paragraph: [x1] lives in the same city with [x2].
 Subjects (x): Gerald; Jennifer.
 Question: Who [attr]?
 Attributes (attr): was a hunter; can never be a hunter
 ```
-
-The templates, subjects, and attributes can be found at:
+where templates, subjects, and attributes can be found at:
 ```
 ./word_lists/slots/       # templates
 ./word_lists/subjects/    # subjects
@@ -139,7 +140,7 @@ To do that, simply specify ``--filler newsqa`` when calling the ``generate_under
 
 # 2. Predicting on Underspecified Questions
 
-Instructions below illustrate how to dump those predictions.
+This step covers how to use trained models to predict on the underspecified examples (``source.json``). Results will be saved as ``output.json`` files at ``./data/``.
 
 Assuming QA models are already trained via HuggingFace's interfaces, e.g., ``run_squad.py``, we will show how to run trained model over the generated data.
 In case you need to train QA models from scratch, please jump to the Appendix below and look for model training instructions.
@@ -185,6 +186,8 @@ That is, e.g., the probability of name ``John`` is ``max(P(John), P(he))``.
 
 <a name="evaluation"></a>
 # 3. Aggregating Bias Scores
+
+This step covers how to analyze over model predictions (``output.json``). Analysis results will be saved as ``log.txt`` at ``./data/``.
 
 ### Evaluating on gender-occupation data
 
@@ -237,6 +240,8 @@ The same pattern applies to ethnicity and religion evaluations, just changing th
 
 <a name="visualization"></a>
 # 4. Visualization
+
+This step covers how to visualize analysis results (``log.txt``)
 
 ### Reproducing charts in our paper
 
