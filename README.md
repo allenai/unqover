@@ -37,6 +37,13 @@ The modules in this repo are structured like this:
 ./utils           # some utilities
 ```
 
+And the flow of this readme is:
+- [Part 1](#generation): How to generate underspecified examples from scratch
+- [Part 2](#prediction): How to use trained QA or pre-trained LMs to predict on the generated examples
+- [Part 3](#evaluation): How to run analysis over model predictions
+- [Part 4](#visualization): How to visualize analysis results
+- [Appendix](#appendix): How to train QA models on your own and tools that come in handy
+
 ## Instructions for Reproduction
 
 To reproduce our results in the paper, you can simply download model predictions from [here](https://console.cloud.google.com/storage/browser/unqover-files;tab=objects) and put them under ``./data/``:
@@ -48,6 +55,7 @@ gsutil -m cp -R gs://unqover-files/model_outputs/*  .
 After downloading, you can jump to the [Part 3](#evaluation) and [Part 4](#visualization) of this readme for evaluation and visualization.
 
 
+<a name="generation"></a>
 # 1. Generating Underspecified Questions
 
 This step covers how to generate underspecified examples (``source.json``) to be located at ``./data/``.
@@ -138,6 +146,7 @@ In some special cases it would be helpful to add some domain triggers.
 For instance, when using the NewsQA data released in [Multi-QA](https://github.com/alontalmor/MultiQA), it is *very important* to add a special header, that widely occurs in the training data, to every example.
 To do that, simply specify ``--filler newsqa`` when calling the ``generate_underspecified_templates`` module.
 
+<a name="prediction"></a>
 # 2. Predicting on Underspecified Questions
 
 This step covers how to use trained models to predict on the underspecified examples (``source.json``). Results will be saved as ``output.json`` files at ``./data/``.
@@ -265,6 +274,7 @@ python3 -u -m visualization.dump_bipartite_vis --files bertlarge_ethnicity.outpu
 TODO
 ```
 
+<a name="appendix"></a>
 # Appendix
 
 ### Training your own QA models via HuggingFace
@@ -338,7 +348,7 @@ python3 -u -m qa.demo --load_file ./data/newsqa_seqtok_distilbert --gpuid [GPUID
 ```
 where ``./data/newsqa_seqtok_distilbert`` is the ``hdf5`` model file trained above.
 
-For pretrained LM, you can run:
+For pre-trained LM, you can run:
 ```
 python3 -u -m lm.demo --transformer_type distilbert-base-uncased --gpuid [GPUID]
 ```
