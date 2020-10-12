@@ -108,7 +108,7 @@ python3 -m templates.generate_underspecified_templates --template_type $TYPE \
   --output ./data/${FILE}.source.json
 ```
 where ``gender_noact_lm`` points to a file under ``./word_lists`` that contains templates for LMs;
-``mixed_gender_roberta`` points to ``male_roberta`` and ``female_roberta`` files.
+``mixed_gender_roberta`` points to ``male_roberta`` and ``female_roberta`` files to, and same as above, pair up gendered names.
 
 ### Non-gender datasets for QA models
 
