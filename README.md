@@ -256,7 +256,6 @@ This step covers how to visualize analysis results (``log.txt``)
 ### Reproducing charts in our paper
 
 After ``*.log.txt`` files got generated, you can reproduce the plots in the paper by jupyter notebooks located at ``./visualization/``. Specifically:
-
 ```
 ./visualization/Plot_curves.ipynb # plots the model-level bias intensities.
 ./visualization/Plot_ranks.ipynb   # plots avg./std. of subject ranks across different models using their gamma scores.
@@ -268,11 +267,10 @@ The ``Plot_ranks.ipynb`` file is self-contained. Data points there are generated
 
 ### More plotting
 
-To create subject-attribute bipartite graph, e.g., using a prediction file on ethnicity data, first run the following:
-
+You can use some aggregated scores to create additional visualizations, e.g. subject-attribute bipartite graph.
+Such scores can be obtained by, e.g.,
 ```
 python3 -u -m visualization.dump_bipartite_vis --files bertlarge_ethnicity.output.json
-TODO
 ```
 
 <a name="appendix"></a>
