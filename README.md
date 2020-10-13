@@ -38,21 +38,16 @@ The modules in this repo are structured like this:
 ```
 
 And the flow of this readme is:
-- [Part 1](#generation): How to generate underspecified examples from scratch
-- [Part 2](#prediction): How to use trained QA or pre-trained LMs to predict on the generated examples
-- [Part 3](#evaluation): How to run analysis over model predictions
-- [Part 4](#visualization): How to visualize analysis results
-- [Appendix](#appendix): How to train QA models on your own and tools that come in handy
+- [Step 1](#generation): How to generate underspecified examples from scratch
+- [Step 2](#prediction): How to use trained QA or pre-trained LMs to predict on the generated examples
+- [Step 3](#evaluation): How to run analysis over model predictions
+- [Step 4](#visualization): How to visualize analysis results
+- [Appendix](#appendix): How to train QA models on your own and tools that might come in handy
 
-## Instructions for Reproduction
 
-To reproduce our results in the paper, you can simply download model predictions from [here](https://console.cloud.google.com/storage/browser/unqover-files;tab=objects) and put them under ``./data/``:
-```
-cd ./data/
-pip install gsutil
-gsutil -m cp -R gs://unqover-files/model_outputs/*  .
-```
-After downloading, you can jump to the [Part 3](#evaluation) and [Part 4](#visualization) of this readme for evaluation and visualization.
+### Model Predictions 
+To make our paper reproducible, we have made the model predictions used in our study available [here](https://open.quiltdata.com/b/ai2-datasets/tree/unqover_model_dumps/), which should covert Step 1 and Step 2 mentioned above. 
+After downloading, you can jump to the [Step 3](#evaluation) and [Step 4](#visualization) of this readme for evaluation and visualization.
 
 
 <a name="generation"></a>
