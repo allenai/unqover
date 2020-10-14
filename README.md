@@ -346,3 +346,7 @@ For pre-trained LM, you can run:
 ```
 python3 -u -m lm.demo --transformer_type distilbert-base-uncased --gpuid [GPUID]
 ```
+
+### Known Issues
+
+- The country name ``Germany`` was mistakingly written as ``German``. But given the large number of examples in nationality dataset, this typo would have a limited impact to our analysis results.
