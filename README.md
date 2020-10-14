@@ -1,9 +1,7 @@
 
----
-<a href="#">
-    <img src="logo.png" alt="unqover logo" title="unqover" align="left" height="220" />
-</a>
+<p align="center"><img width="20%" src="logo.png" /></p>
 
+---
 Implementation of our EMNLP 2020 Findings paper: [UnQovering Stereotyping Biases via Underspecified Questions](https://arxiv.org/abs/2010.02428)
 ```
 @inproceedings{li2020unqover,
