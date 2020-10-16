@@ -2,6 +2,13 @@
 
 set -e
 
+
+if [ "$1" == "-h" ]; then
+  echo "Generate underspecified questions for all models and bias classes."
+  echo "   -h           Print the help message and exit"
+  exit 0
+fi
+
 echo "======================================="
 echo    "      GENERATING QUESTIONS"
 echo "======================================="
@@ -51,3 +58,4 @@ do
             --output ./data/${FILE}.source.json
 done
 
+exit 0
