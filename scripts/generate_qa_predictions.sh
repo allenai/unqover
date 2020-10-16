@@ -12,7 +12,7 @@ gpuid=${gpuid:-0}
 if [ "$1" == "-h" ]; then
   echo "Generate predictions from QA models saved in HDF5 format."
   echo "   -m           Tame of the directory that contains HF model"
-  echo "   -m_name      A brief name of the QA model, used to compose output path"
+  echo "   -m_name      A brief name of the QA model, used to compose output path, must be in {robertabase, robertalarge, bertbase, bertlarge, distilbert}"
   echo "   -t           The transformer type of the model, must be specified explicitly"
   echo "   -d           A list of dataset types, separated by comma, must be in {gender, country, religion, ethnicity}"
   echo "   -gpuid       The GPU device index to use, default to 0"

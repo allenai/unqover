@@ -8,7 +8,7 @@ d=${d}
 
 if [ "$1" == "-h" ]; then
   echo "Aggregate scores from model predictions."
-  echo "   -m_name      A list of model names, separated by comma"
+  echo "   -m_name      A list of model names, separated by comma, , must be in {robertabase, robertalarge, bertbase, bertlarge, distilbert}"
   echo "   -d           A list of dataset types, separated by comma, must be in {gender, country, religion, ethnicity}"
   echo "   -h           Print the help message and exit"
   exit 0
