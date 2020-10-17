@@ -9,10 +9,10 @@ gpuid=${gpuid:-0}
 
 if [ "$1" == "-h" ]; then
   echo "Generate predictions from masked LMs from HuggingFace's transformers."
-  echo "   -m           Name of the pre-trained transformer model"
-  echo "   -m_name      A brief name of the masked LM, used to compose output path, must be in {robertabase, robertalarge, bertbase, bertlarge, distilbert}"
-  echo "   -d           A list of dataset types, separated by comma, must be in {gender, country, religion, ethnicity}"
-  echo "   -gpuid       The GPU device index to use, default to 0"
+  echo "   --m           Name of the pre-trained transformer model"
+  echo "   --m_name      A brief name of the masked LM, used to compose output path, must be in {robertabase, robertalarge, bertbase, bertlarge, distilbert}"
+  echo "   --d           A list of dataset types, separated by comma, must be in {gender, country, religion, ethnicity}"
+  echo "   --gpuid       The GPU device index to use, default to 0"
   echo "   -h           Print the help message and exit"
   exit 0
 fi

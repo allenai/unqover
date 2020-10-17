@@ -6,7 +6,7 @@ gpuid=${gpuid:-0}
 
 if [ "$1" == "-h" ]; then
   echo "Generate predictions using all models and all datasets we have."
-  echo "   -gpuid       The GPU device index to use, default to 0"
+  echo "   --gpuid       The GPU device index to use, default to 0"
   echo "   -h           Print the help message and exit"
   exit 0
 fi
