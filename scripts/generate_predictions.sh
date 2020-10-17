@@ -33,18 +33,18 @@ DATA=gender,country,ethnicity,religion
 
 # SQuAD models
 #   for roberta family, we use the ones trained on our own
-./generate_qa_predictions.sh --m ./data/squad_seqtok --m_name robertabase --t roberta-base --d $DATA --gpuid $gpuid
-./generate_qa_predictions.sh --m ./data/squad_seqtok_robertalarge --m_name robertalarge --t roberta-large --d $DATA --gpuid $gpuid
+./generate_qa_predictions.sh --m ./models/squad_seqtok --m_name robertabase --t roberta-base --d $DATA --gpuid $gpuid
+./generate_qa_predictions.sh --m ./models/squad_seqtok_robertalarge --m_name robertalarge --t roberta-large --d $DATA --gpuid $gpuid
 #   for bert base and dilstilbert, use the ones trained on our own with HF's internfaces
-./generate_qa_predictions_hf.sh --m ./data/bert-base-uncased-squad --m_name bertbase --d $DATA --gpuid $gpuid
-./generate_qa_predictions_hf.sh --m ./data/distilbert-base-uncased-squad --m_name distilbert --d $DATA --gpuid $gpuid
+./generate_qa_predictions_hf.sh --m ./models/bert-base-uncased-squad --m_name bertbase --d $DATA --gpuid $gpuid
+./generate_qa_predictions_hf.sh --m ./models/distilbert-base-uncased-squad --m_name distilbert --d $DATA --gpuid $gpuid
 #   for bertlarge, we use the officially released model from HF
 ./generate_qa_predictions_hf.sh --m bert-large-uncased-whole-word-masking-finetuned-squad --m_name bertlarge --d $DATA --gpuid $gpuid
 
 # NewsQA models
 #   here we use models trained on our own
-./generate_qa_predictions.sh --m ./data/newsqa_seqtok --m_name newsqa_robertabase --t roberta-base --d  --gpuid $gpuid
-./generate_qa_predictions.sh --m ./data/newsqa_seqtok_robertalarge --m_name newsqa_robertalarge --t roberta-large --d $DATA --gpuid $gpuid
-./generate_qa_predictions.sh --m ./data/newsqa_seqtok_distilbert --m_name newsqa_distilbert --t distilbert-base-uncased --d $DATA --gpuid $gpuid
-./generate_qa_predictions.sh --m ./data/newsqa_seqtok_bertbase --m_name newsqa_bertbase --t bert-base-uncased --d $DATA --gpuid $gpuid
-./generate_qa_predictions.sh --m ./data/newsqa_seqtok_bertlarge --m_name newsqa_bertlarge --t bert-large-uncased-whole-word-masking --d $DATA --gpuid $gpuid
+./generate_qa_predictions.sh --m ./models/newsqa_seqtok --m_name newsqa_robertabase --t roberta-base --d  --gpuid $gpuid
+./generate_qa_predictions.sh --m ./models/newsqa_seqtok_robertalarge --m_name newsqa_robertalarge --t roberta-large --d $DATA --gpuid $gpuid
+./generate_qa_predictions.sh --m ./models/newsqa_seqtok_distilbert --m_name newsqa_distilbert --t distilbert-base-uncased --d $DATA --gpuid $gpuid
+./generate_qa_predictions.sh --m ./models/newsqa_seqtok_bertbase --m_name newsqa_bertbase --t bert-base-uncased --d $DATA --gpuid $gpuid
+./generate_qa_predictions.sh --m ./models/newsqa_seqtok_bertlarge --m_name newsqa_bertlarge --t bert-large-uncased-whole-word-masking --d $DATA --gpuid $gpuid

@@ -25,6 +25,7 @@ and code for training and evaluating QA and LMs. You can also try our [visualiza
 ---
 
 First make a data directory ``mkdir ./data``. All generated data, model predictions, and analysis logs will be dumped there.
+Further, ``mkdir ./models`` to hold trained models.
 
 The modules in this repo are structured like this:
 ```
@@ -154,14 +155,14 @@ The same script pattern applies to other datasets.
 
 ### Using QA models on gender-occupation data
 
-Assuming a RoBERTa-base SQuAD model is located at ``./data/roberta-base-squad/``, which is trained via HuggingFace's ``run_squad.py``, let us use it to predict on the gender-occupation dataset:
+Assuming a RoBERTa-base SQuAD model is located at ``./models/roberta-base-squad/``, which is trained via HuggingFace's ``run_squad.py``, let us use it to predict on the gender-occupation dataset:
 ```
 TYPE=slot_act_map
 SUBJ=mixed_gender
 SLOT=gender_noact
 ACT=occupation_rev1
 FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
-MODEL=./data/roberta-base-squad/
+MODEL=./models/roberta-base-squad/
 python3 -m qa_hf.predict --gpuid [GPUID] \
   --hf_model ${MODEL} \
   --input ${FILE}.source.json --output ./data/robertabase_gender.output.json
@@ -279,6 +280,7 @@ Then:
 ```
 GPUID=[GPUID]
 DATA_DIR=/path/to/data/in/this/dir
+MODEL_DIR=/path/to/models/in/this/dir
 SQUAD_DIR=$DATA_DIR/squad/
 CUDA_VISIBLE_DEVICES=$GPUID python3 -u run_squad.py \
   --model_type distilbert \
@@ -295,7 +297,7 @@ CUDA_VISIBLE_DEVICES=$GPUID python3 -u run_squad.py \
   --seed 3435 \
   --do_lower_case \
   --overwrite_cache \
-  --output_dir $DATA_DIR/distilbert-base-uncased-squad/
+  --output_dir $MODEL_DIR/distilbert-base-uncased-squad/
 ```
 
 For NewsQA data, you might have to hack the ``run_squad.py`` file a bit to make it run smoothly.
@@ -312,7 +314,7 @@ python3 -u -m qa.preprocess --dir ./data/newsqa/ --batch_size 20 --max_seq_l 336
 GPUID=[GPUID]
 LR=0.00003
 BERT_TYPE=distilbert-base-uncased
-MODEL=data/newsqa_seqtok_distilbert
+MODEL=models/newsqa_seqtok_distilbert
 python3 -u -m qa.train --gpuid $GPUID --dir data/newsqa/ \
 --transformer_type $BERT_TYPE \
 --train_data newsqa.distilbert.train.hdf5 \
@@ -327,7 +329,7 @@ It will dump a trained model (in hdf5 format) to the ``./data/`` directory.
 Note that the saved model is not in HuggingFace's format, so we need a different prediction step:
 ```
 python3 -u -m qa.predict --gpuid [GPUID] \
-  --load_file data/${MODEL} --transformer_type $BERT_TYPE \
+  --load_file models/${MODEL} --transformer_type $BERT_TYPE \
   --input ${FILE}.source.json --output ./data/${OUTPUT}.output.json
 ```
 where the ``$FILE`` and ``$OUTPUT`` customized for each data and QA model. Please refer to the Section **Prediction** above.
@@ -338,9 +340,9 @@ There is an interactive demo that could come in handy. It will load a trained mo
 
 In case you want to play a bit with trained QA models (the ones trained *without* HuggingFace's ``run_squad.py``), you can run, e.g.,:
 ```
-python3 -u -m qa.demo --load_file ./data/newsqa_seqtok_distilbert --gpuid [GPUID]
+python3 -u -m qa.demo --load_file ./models/newsqa_seqtok_distilbert --gpuid [GPUID]
 ```
-where ``./data/newsqa_seqtok_distilbert`` is the ``hdf5`` model file trained above.
+where ``./models/newsqa_seqtok_distilbert`` is the ``hdf5`` model file trained above.
 
 For pre-trained LM, you can run:
 ```
