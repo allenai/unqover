@@ -3,6 +3,7 @@
 set -e
 
 gpuid=${gpuid:-0}
+d=${d}
 
 if [ "$1" == "-h" ]; then
   echo "Generate predictions using all models and all datasets we have."
