@@ -11,7 +11,7 @@ gpuid=${gpuid:-0}
 
 if [ "$1" == "-h" ]; then
   echo "Generate predictions from QA models saved in HDF5 format."
-  echo "   -m           Tame of the directory that contains HF model"
+  echo "   -m           Path to the HDF5 model file"
   echo "   -m_name      A brief name of the QA model, used to compose output path, must be in {robertabase, robertalarge, bertbase, bertlarge, distilbert}"
   echo "   -t           The transformer type of the model, must be specified explicitly"
   echo "   -d           A list of dataset types, separated by comma, must be in {gender, country, religion, ethnicity}"
@@ -66,7 +66,7 @@ do
     FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
 
     python3 -u -m qa.predict --gpuid ${gpuid} \
-        --load_file data/${m} --transformer_type $t \
+        --load_file ${m} --transformer_type $t \
         --input ${FILE}.source.json --output ./data/${m_name}_${di}.output.json
 done
 
