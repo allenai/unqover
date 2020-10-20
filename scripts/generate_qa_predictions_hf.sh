@@ -39,6 +39,7 @@ echo ">> Datasets to process: "$d
 
 for di in $d
 do
+    echo "======================================="
     echo ">> Running QA model (HuggingFace) "${m}" on "${di}" data"
     echo ">> Will dump predictions to ./data/"${m_name}_${di}.output.json
 
@@ -63,7 +64,7 @@ do
     FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
 
     python3 -u -m qa_hf.predict --gpuid ${gpuid} \
-    --hf_model ${m} \
+    --hf_model tli8hf/${m} \
     --input ${FILE}.source.json --output ./data/${m_name}_${di}.output.json
 done
 

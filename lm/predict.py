@@ -69,13 +69,13 @@ def preprocess(source):
 
 def load_mask_filler(opt):
 	return pipeline('fill-mask', 
-		model=AutoModelWithLMHead.from_pretrained(opt.transformer_type), 
+		model=AutoModelForMaskedLM.from_pretrained(opt.transformer_type), 
 		tokenizer=AutoTokenizer.from_pretrained(opt.transformer_type),
 		device=opt.gpuid)
 
 # modified from FillMaskPipeline.__call__ function
 def topk_tokens(opt, mask_filler, batch_seq):
-	inputs = mask_filler._parse_and_tokenize(batch_seq, pad_to_max_length=True)
+	inputs = mask_filler._parse_and_tokenize(batch_seq, padding=True)
 	outputs = mask_filler._forward(inputs, return_tensors=True)
 
 	results = []
@@ -85,7 +85,7 @@ def topk_tokens(opt, mask_filler, batch_seq):
 		input_ids = inputs["input_ids"][i]
 		result = []
 
-		if (input_ids == mask_filler.tokenizer.mask_token_id).nonzero().numel() != 1:
+		if torch.nonzero(input_ids == mask_filler.tokenizer.mask_token_id).numel() != 1:
 			print(batch_seq[i])
 			assert(False)
 

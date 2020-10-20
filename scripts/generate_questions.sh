@@ -31,7 +31,17 @@ SLOT=gender_noact_lm
 ACT=occupation_rev1
 FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
 python3 -m templates.generate_underspecified_templates --template_type $TYPE \
-      --subj $SUBJ --act $ACT --slot $SLOT \
+      --subj $SUBJ --act $ACT --slot $SLOT --lm_mask "<mask>" \
+        --output ./data/${FILE}.source.json
+
+
+TYPE=slot_act_map
+SUBJ=mixed_gender_bert
+SLOT=gender_noact_lm
+ACT=occupation_rev1
+FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
+python3 -m templates.generate_underspecified_templates --template_type $TYPE \
+      --subj $SUBJ --act $ACT --slot $SLOT --lm_mask "[MASK]" \
         --output ./data/${FILE}.source.json
 
 
@@ -54,7 +64,16 @@ do
     ACT=biased_${CLASS}
     FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
     python3 -m templates.generate_underspecified_templates --template_type $TYPE \
-          --subj $SUBJ --act $ACT --slot $SLOT \
+          --subj $SUBJ --act $ACT --slot $SLOT --lm_mask "<mask>" \
+            --output ./data/${FILE}.source.json
+
+    TYPE=slot_act_map
+    SUBJ=${CLASS}_bert
+    SLOT=${CLASS}_noact_lm
+    ACT=biased_${CLASS}
+    FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
+    python3 -m templates.generate_underspecified_templates --template_type $TYPE \
+          --subj $SUBJ --act $ACT --slot $SLOT --lm_mask "[MASK]" \
             --output ./data/${FILE}.source.json
 done
 

@@ -40,10 +40,10 @@ echo ">> Datasets to process: "$d
 # e.g. for robertabase, the family is roberta
 M_FAMILY=$(echo ${m_name//base})
 case "$m_name" in
-    "robertabase" | "robertalarge")
+    "robertabase_lm" | "robertalarge_lm")
         M_FAMILY="roberta"
         ;;
-    "bertbase" | "bertlarge" | "distilbert")
+    "bertbase_lm" | "bertlarge_lm" | "distilbert_lm")
         M_FAMILY="bert"
         ;;
     *)
@@ -54,8 +54,9 @@ esac
 
 for di in $d
 do
+    echo "======================================="
     echo ">> Running masked LM (HuggingFace) "${m}" on "${di}" data"
-    echo ">> Will dump predictions to ./data/"${m_name}_lm_${di}.output.json
+    echo ">> Will dump predictions to ./data/"${m_name}_${di}.output.json
 
     TYPE=slot_act_map
     case "${di}" in
@@ -80,7 +81,7 @@ do
     FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
 
     python3 -u -m lm.predict --gpuid $gpuid --transformer_type $m --use_he_she $USE_HESHE \
-      --input ${FILE}.source.json --output ./data/${m_name}_lm_${di}.output.json
+      --input ${FILE}.source.json --output ./data/${m_name}_${di}.output.json
 
 done
 

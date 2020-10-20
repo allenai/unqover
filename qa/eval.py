@@ -10,6 +10,7 @@ from torch.autograd import Variable
 from torch import nn
 from torch import cuda
 from utils.holder import *
+from utils.util import *
 from .data import *
 from .boundary_loss import *
 from .pipeline import *

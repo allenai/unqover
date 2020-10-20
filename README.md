@@ -25,7 +25,8 @@ and code for training and evaluating QA and LMs. You can also try our [visualiza
 ---
 
 First make a data directory ``mkdir ./data``. All generated data, model predictions, and analysis logs will be dumped there.
-Further, ``mkdir ./models`` to hold trained models.
+Further, ``mkdir ./models`` to hold trained models. 
+In addition to the dependency listed in ``requirements.txt``, please install Nvidia-Apex [here](https://github.com/NVIDIA/apex).
 
 The modules in this repo are structured like this:
 ```
@@ -36,24 +37,57 @@ The modules in this repo are structured like this:
 ./templates       # code for dataset generation.
 ./word_lists      # templates and slot fillers for dataset generation.
 ./utils           # some utilities
+./scripts         # scripts for quick reproduction
 ```
 
 And the flow of this readme is:
-- [Step 1](#generation): How to generate underspecified examples from scratch
-- [Step 2](#prediction): How to use trained QA or pre-trained LMs to predict on the generated examples
-- [Step 3](#evaluation): How to run analysis over model predictions
-- [Step 4](#visualization): How to visualize analysis results
-- [Appendix](#appendix): How to train QA models on your own and tools that might come in handy
+* [Reproducing Our Results (the fast way)](#reproducing_our_results)
+* [Starting From Scratch (the slow way)](#start_from_scratch)
+  * [Step 1](#generation): How to generate underspecified examples from scratch
+  * [Step 2](#prediction): How to use trained QA or pre-trained LMs to predict on the generated examples
+  * [Step 3](#evaluation): How to run analysis over model predictions
+  * [Step 4](#visualization): How to visualize analysis results
+* [Appendix](#appendix): How to train QA models on your own and tools that might come in handy
+
+---
 
 
-### Model Predictions 
-To make our paper reproducible, we have made the model predictions used in our study available [here](https://open.quiltdata.com/b/ai2-datasets/tree/unqover_model_dumps/), which should covert Step 1 and Step 2 mentioned above. 
-After downloading, you can jump to the [Step 3](#evaluation) and [Step 4](#visualization) of this readme for evaluation and visualization.
+<a name="reproducing_our_results"></a>
+# Reproducing Our Results
+To make our paper reproducible, we have made the models and their predictions used in our study available. 
 
+**Get Model Predictions**
+
+You may start by downloading those model dumps:
+```
+./scripts/download_data.sh
+```
+which will download and unpack model predictions into ``./data/``.
+
+*Alternatively*, you can generating the underspecified examples and use pre-trained models (will be downloaded automatically) to predict on them:
+```
+./scripts/generate_questions.sh
+./scripts/generate_predictions.sh --d gender,country,ethnicity,religion --gpuid [GPUID]
+```
+where ``[GPUID]`` is the GPU device index. The prediction will take *many* hours to finish, and predictions will dumped to ``./data/``, same as above.
+
+**Get Evaluations**
+
+Then, you can get aggregated measurements over those model predictions by:
+```
+./scripts/aggregate_predictions.sh --m_name robertabase_lm,robertalarge_lm,distilbert_lm,bertbase_lm,bertlarge_lm --d gender,country,ethnicity,religion
+./scripts/aggregate_predictions.sh --m_name robertabase,robertalarge,distilbert,bertbase,bertlarge --d gender,country,ethnicity,religion
+```
+Now, you can jump to [Step 4](#visualization) of this readme for visualization.
+
+---
+
+<a name="start_from_scratch"></a>
+# Starting From Scratch
+Here we describe how to start from templates, to model training, to model predictions, to evaluation, and to visualization.
 
 <a name="generation"></a>
-# 1. Generating Underspecified Questions
-
+## 1. Generating Underspecified Questions
 This step covers how to generate underspecified examples (``source.json``) to be located at ``./data/``.
 
 Our template looks like:
@@ -100,7 +134,7 @@ SLOT=gender_noact_lm
 ACT=occupation_rev1
 FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
 python3 -m templates.generate_underspecified_templates --template_type $TYPE \
-  --subj $SUBJ --act $ACT --slot $SLOT \
+  --subj $SUBJ --act $ACT --slot $SLOT --lm_mask <mask> \
   --output ./data/${FILE}.source.json
 ```
 where ``gender_noact_lm`` points to a file under ``./word_lists`` that contains templates for LMs;
@@ -130,7 +164,7 @@ SLOT=country_noact_lm
 ACT=biased_country
 FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
 python3 -m templates.generate_underspecified_templates --template_type $TYPE \
-  --subj $SUBJ --act $ACT --slot $SLOT \
+  --subj $SUBJ --act $ACT --slot $SLOT --lm_mask <mask> \
   --output ./data/${FILE}.source.json
 ```
 where ``country_roberta`` points to a file that contains single-wordpiece country names for RoBERTa models.
@@ -143,7 +177,7 @@ For instance, when using the NewsQA data released in [Multi-QA](https://github.c
 To do that, simply specify ``--filler newsqa`` when calling the ``generate_underspecified_templates`` module.
 
 <a name="prediction"></a>
-# 2. Predicting on Underspecified Questions
+## 2. Predicting on Underspecified Questions
 
 This step covers how to use trained models to predict on the underspecified examples (``source.json``). Results will be saved as ``output.json`` files at ``./data/``.
 
@@ -191,7 +225,7 @@ where ``--use_he_she 1`` specifies that the gendered pronouns (he/she) will be u
 That is, e.g., the probability of name ``John`` is ``max(P(John), P(he))``.
 
 <a name="evaluation"></a>
-# 3. Aggregating Bias Scores
+## 3. Aggregating Bias Scores
 
 This step covers how to analyze over model predictions (``output.json``). Analysis results will be saved as ``log.txt`` at ``./data/``.
 
@@ -245,7 +279,7 @@ Alternatively, you can use ``--group_by subj`` to get analysis at subject level.
 The same pattern applies to ethnicity and religion evaluations, just changing the ``--input`` to the corresponding predicted json files.
 
 <a name="visualization"></a>
-# 4. Visualization
+## 4. Visualization
 
 This step covers how to visualize analysis results (``log.txt``)
 
@@ -333,6 +367,12 @@ python3 -u -m qa.predict --gpuid [GPUID] \
   --input ${FILE}.source.json --output ./data/${OUTPUT}.output.json
 ```
 where the ``$FILE`` and ``$OUTPUT`` customized for each data and QA model. Please refer to the Section **Prediction** above.
+
+Alternatively, you can convert the HDF5 model into HuggingFace's format via:
+```
+python3 -u -m utils.convert_hdf5_to_hf --load_file ./models/newsqa_seqtok_distilbert --transformer_type distilbert-base-uncased --output ./models/distilbert-base-uncased-newsqa
+```
+and then use the prediction instructions described in [Step 2](#prediction).
 
 ### Interactive Demo of QA and masked LM
 

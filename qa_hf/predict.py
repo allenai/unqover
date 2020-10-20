@@ -7,7 +7,6 @@ from torch.autograd import Variable
 from torch import nn
 from torch import cuda
 from utils.util import *
-from utils.holder import *
 from utils.extract import get_tokenizer, tokenize_underspecified_input
 from transformers import *
 import json
@@ -168,30 +167,24 @@ def improve_prediction(transformer_type, concated_toks, p_start, p_end, idx0, id
 
 def load_model(opt):
 	t = AutoTokenizer.from_pretrained(opt.hf_model, add_special_tokens=False, use_fast=True)
-	if opt.hf_model == 'distilbert-base-uncased-distilled-squad':
-		m = DistilBertForQuestionAnswering.from_pretrained(opt.hf_model)
-	elif opt.hf_model == 'bert-large-uncased-whole-word-masking-finetuned-squad':
-		m = BertForQuestionAnswering.from_pretrained(opt.hf_model)
-	else:
-		print('fallback to AutoModelForQuestionAnswering with {0}'.format(opt.hf_model))
-		m = AutoModelForQuestionAnswering.from_pretrained(opt.hf_model)
-	#else:
-	#	raise Exception('unrecognized model {0}'.format(opt.hf_model))
+	#print('fallback to AutoModelForQuestionAnswering with {0}'.format(opt.hf_model))
+	m = AutoModelForQuestionAnswering.from_pretrained(opt.hf_model)
 
 	return m, t
 
 
 def forward(opt, m, tok_idx, att_mask, type_idx):
-	if 'distilbert' in opt.hf_model:
-		start_scores, end_scores = m(tok_idx, att_mask)
-	else:
+	# use type_idx only when using pre-trained bert-large
+	#	Other models either do not accept type_idx, or we trained them without it (which turns out doesn't matter much to test F1)
+	if opt.hf_model == 'bert-large-uncased-whole-word-masking-finetuned-squad':
 		start_scores, end_scores = m(tok_idx, att_mask, type_idx)
+	else:
+		start_scores, end_scores = m(tok_idx, att_mask)
 	return torch.nn.functional.softmax(start_scores, dim=-1), torch.nn.functional.softmax(end_scores, dim=-1)
 
 
 def main(args):
 	opt = parser.parse_args(args)
-	shared = Holder()
 
 	opt.input = opt.dir + opt.input
 
@@ -216,7 +209,6 @@ def main(args):
 	#
 	print('start prediction...')
 	m.train(False)
-	shared.is_train = False
 
 	cnt = 0
 	batch_cnt = 0
