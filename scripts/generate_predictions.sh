@@ -25,19 +25,19 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-# mased LMs
-./scripts/generate_lm_predictions.sh --m roberta-base --m_name robertabase_lm --d $d --gpuid $gpuid
-./scripts/generate_lm_predictions.sh --m roberta-large --m_name robertalarge_lm --d $d --gpuid $gpuid
-./scripts/generate_lm_predictions.sh --m distilbert-base-uncased --m_name distilbert_lm --d $d --gpuid $gpuid
-./scripts/generate_lm_predictions.sh --m bert-base-uncased --m_name bertbase_lm --d $d --gpuid $gpuid
-./scripts/generate_lm_predictions.sh --m bert-large-uncased-whole-word-masking --m_name bertlarge_lm --d $d --gpuid $gpuid
-
-# SQuAD models
-./scripts/generate_qa_predictions_hf.sh --m unqover-roberta-base-squad --m_name robertabase --d $d --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-roberta-large-squad --m_name robertalarge --d $d --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-distilbert-base-uncased-squad --m_name distilbert --d $d --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-bert-base-uncased-squad --m_name bertbase --d $d --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-bert-large-uncased-squad --m_name bertlarge --d $d --gpuid $gpuid
+## mased LMs
+#./scripts/generate_lm_predictions.sh --m roberta-base --m_name robertabase_lm --d $d --gpuid $gpuid
+#./scripts/generate_lm_predictions.sh --m roberta-large --m_name robertalarge_lm --d $d --gpuid $gpuid
+#./scripts/generate_lm_predictions.sh --m distilbert-base-uncased --m_name distilbert_lm --d $d --gpuid $gpuid
+#./scripts/generate_lm_predictions.sh --m bert-base-uncased --m_name bertbase_lm --d $d --gpuid $gpuid
+#./scripts/generate_lm_predictions.sh --m bert-large-uncased-whole-word-masking --m_name bertlarge_lm --d $d --gpuid $gpuid
+#
+## SQuAD models
+#./scripts/generate_qa_predictions_hf.sh --m unqover-roberta-base-squad --m_name robertabase --d $d --gpuid $gpuid
+#./scripts/generate_qa_predictions_hf.sh --m unqover-roberta-large-squad --m_name robertalarge --d $d --gpuid $gpuid
+#./scripts/generate_qa_predictions_hf.sh --m unqover-distilbert-base-uncased-squad --m_name distilbert --d $d --gpuid $gpuid
+#./scripts/generate_qa_predictions_hf.sh --m unqover-bert-base-uncased-squad --m_name bertbase --d $d --gpuid $gpuid
+#./scripts/generate_qa_predictions_hf.sh --m unqover-bert-large-uncased-squad --m_name bertlarge --d $d --gpuid $gpuid
 
 # NewsQA models
 #   here we use models trained on our own

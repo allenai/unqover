@@ -79,6 +79,7 @@ do
     esac
 
     FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
+    echo ">> Input file "${FILE}
 
     python3 -u -m lm.predict --gpuid $gpuid --transformer_type $m --use_he_she $USE_HESHE \
       --input ${FILE}.source.json --output ./data/${m_name}_${di}.output.json

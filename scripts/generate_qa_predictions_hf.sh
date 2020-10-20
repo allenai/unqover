@@ -10,7 +10,7 @@ gpuid=${gpuid:-0}
 if [ "$1" == "-h" ]; then
   echo "Generate predictions from QA models saved in HuggingFace's format."
   echo "   --m           Path to the directory that contains HF model"
-  echo "   --m_name      A brief name of the QA model, used to compose output path, must be in {robertabase, robertalarge, bertbase, bertlarge, distilbert}"
+  echo "   --m_name      A brief name of the QA model, used to compose output path, must be in {robertabase, robertalarge, bertbase, bertlarge, distilbert}, optionally with 'newsqa_' prefix"
   echo "   --d           A list of dataset types, separated by comma, must be in {gender, country, religion, ethnicity}"
   echo "   --gpuid       The GPU device index to use, default to 0"
   echo "   -h           Print the help message and exit"
@@ -61,7 +61,13 @@ do
             ;;
     esac
 
-    FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
+    if [[ $m == *'newsqa'* ]]; then
+      FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}_newsqa
+    else
+      FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
+    fi
+
+    echo ">> Input file "${FILE}
 
     python3 -u -m qa_hf.predict --gpuid ${gpuid} \
     --hf_model tli8hf/${m} \
