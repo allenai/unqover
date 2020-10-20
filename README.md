@@ -65,7 +65,7 @@ You may start by downloading those model dumps:
 ```
 which will download and unpack model predictions into ``./data/``.
 
-*Alternatively*, you can generating the underspecified examples and use pre-trained models (will be downloaded automatically) to predict on them:
+*Alternatively*, you can generate the underspecified examples and use pre-trained models (will be downloaded automatically) to predict on them:
 ```
 ./scripts/generate_questions.sh
 ./scripts/generate_predictions.sh --d gender,country,ethnicity,religion --gpuid [GPUID]
