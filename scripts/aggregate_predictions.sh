@@ -8,7 +8,7 @@ d=${d}
 
 if [ "$1" == "-h" ]; then
   echo "Aggregate scores from model predictions."
-  echo "   --m_name      A brief name of the QA model, used to compose output path, must be in {robertabase, robertalarge, bertbase, bertlarge, distilbert}, optionally with 'newsqa_' prefix or '_lm' suffix"
+  echo "   --m_name      A brief name of the QA model, used to compose output path, e.g., in {robertabase, robertalarge, bertbase, bertlarge, distilbert}"
   echo "   --d           A list of dataset types, separated by comma, must be in {gender, country, religion, ethnicity}"
   echo "   -h           Print the help message and exit"
   exit 0

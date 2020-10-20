@@ -33,16 +33,16 @@ done
 ./scripts/generate_lm_predictions.sh --m bert-large-uncased-whole-word-masking --m_name bertlarge_lm --d $d --gpuid $gpuid
 
 ## SQuAD models
-./scripts/generate_qa_predictions_hf.sh --m unqover-roberta-base-squad --m_name robertabase --d $d --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-roberta-large-squad --m_name robertalarge --d $d --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-distilbert-base-uncased-squad --m_name distilbert --d $d --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-bert-base-uncased-squad --m_name bertbase --d $d --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-bert-large-uncased-squad --m_name bertlarge --d $d --gpuid $gpuid
+./scripts/generate_qa_predictions_hf.sh --m tli8hf/unqover-roberta-base-squad --m_name robertabase --d $d --gpuid $gpuid
+./scripts/generate_qa_predictions_hf.sh --m tli8hf/unqover-roberta-large-squad --m_name robertalarge --d $d --gpuid $gpuid
+./scripts/generate_qa_predictions_hf.sh --m tli8hf/unqover-distilbert-base-uncased-squad --m_name distilbert --d $d --gpuid $gpuid
+./scripts/generate_qa_predictions_hf.sh --m tli8hf/unqover-bert-base-uncased-squad --m_name bertbase --d $d --gpuid $gpuid
+./scripts/generate_qa_predictions_hf.sh --m tli8hf/unqover-bert-large-uncased-squad --m_name bertlarge --d $d --gpuid $gpuid
 
 # NewsQA models
 #   here we use models trained on our own
-./scripts/generate_qa_predictions_hf.sh --m unqover-roberta-base-newsqa --m_name newsqa_robertabase --d $d --extra newsqa --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-roberta-large-newsqa --m_name newsqa_robertalarge --d $d --extra newsqa --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-distilbert-base-uncased-newsqa --m_name newsqa_distilbert --d $d --extra newsqa --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-bert-base-uncased-newsqa --m_name newsqa_bertbase --d $d --extra newsqa --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-bert-large-uncased-newsqa --m_name newsqa_bertlarge --d $d --extra newsqa --gpuid $gpuid
+./scripts/generate_qa_predictions_hf.sh --m tli8hf/unqover-roberta-base-newsqa --m_name robertabase --extra newsqa --d $d --gpuid $gpuid
+./scripts/generate_qa_predictions_hf.sh --m tli8hf/unqover-roberta-large-newsqa --m_name robertalarge --extra newsqa --d $d --gpuid $gpuid
+./scripts/generate_qa_predictions_hf.sh --m tli8hf/unqover-distilbert-base-uncased-newsqa --m_name distilbert --extra newsqa --d $d --gpuid $gpuid
+./scripts/generate_qa_predictions_hf.sh --m tli8hf/unqover-bert-base-uncased-newsqa --m_name bertbase --extra newsqa --d $d --gpuid $gpuid
+./scripts/generate_qa_predictions_hf.sh --m tli8hf/unqover-bert-large-uncased-newsqa --m_name bertlarge --extra newsqa --d $d --gpuid $gpuid
