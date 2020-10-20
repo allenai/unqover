@@ -390,6 +390,7 @@ For pre-trained LM, you can run:
 python3 -u -m lm.demo --transformer_type distilbert-base-uncased --gpuid [GPUID]
 ```
 
-### Known Issue(s)
+### Notes & Known Issues
 
 - The country name ``Germany`` was mistakingly written as ``German``. But given the large number of examples in nationality dataset, this typo would have a limited impact to our analysis results. A re-run with BERT-large SQuAD model turned out to only have ``~0.0002`` chages in ``gamma(x)`` across different countries. The change of ``gamma(Germany)`` was ``+0.0007``, and the country rankings were not impacted at all.
+- The analysis results obtained from [the fast way](#reproducing_our_results) and [the slow way](#starting_from_scratch) will have some *very minor* numerical differences due to model conversions (from HDF5 format to HuggingFace's format).
