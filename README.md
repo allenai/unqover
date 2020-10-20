@@ -70,7 +70,7 @@ which will download and unpack model predictions into ``./data/``.
 ./scripts/generate_questions.sh
 ./scripts/generate_predictions.sh --d gender,country,ethnicity,religion --gpuid [GPUID]
 ```
-where ``[GPUID]`` is the GPU device index. The prediction will take *many* hours to finish, and predictions will dumped to ``./data/``, same as above.
+where ``[GPUID]`` is the GPU device index. The process will take *many* hours to finish, and predictions will dumped to ``./data/``, same as above.
 
 **Get Evaluations**
 
