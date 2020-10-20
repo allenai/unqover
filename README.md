@@ -61,7 +61,7 @@ To make our paper reproducible, we have made the models and their predictions us
 
 You may start by downloading those model dumps:
 ```
-./scripts/download_data.sh
+./scripts/download_predictions.sh
 ```
 which will download and unpack model predictions into ``./data/``.
 
