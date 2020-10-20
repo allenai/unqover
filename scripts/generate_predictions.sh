@@ -31,7 +31,7 @@ done
 ./scripts/generate_lm_predictions.sh --m distilbert-base-uncased --m_name distilbert_lm --d $d --gpuid $gpuid
 ./scripts/generate_lm_predictions.sh --m bert-base-uncased --m_name bertbase_lm --d $d --gpuid $gpuid
 ./scripts/generate_lm_predictions.sh --m bert-large-uncased-whole-word-masking --m_name bertlarge_lm --d $d --gpuid $gpuid
-#
+
 ## SQuAD models
 ./scripts/generate_qa_predictions_hf.sh --m unqover-roberta-base-squad --m_name robertabase --d $d --gpuid $gpuid
 ./scripts/generate_qa_predictions_hf.sh --m unqover-roberta-large-squad --m_name robertalarge --d $d --gpuid $gpuid
@@ -41,8 +41,8 @@ done
 
 # NewsQA models
 #   here we use models trained on our own
-./scripts/generate_qa_predictions_hf.sh --m unqover-roberta-base-newsqa --m_name newsqa_robertabase --d $d --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-roberta-large-newsqa --m_name newsqa_robertalarge --d $d --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-distilbert-base-uncased-newsqa --m_name newsqa_distilbert --d $d --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-bert-base-uncased-newsqa --m_name newsqa_bertbase --d $d --gpuid $gpuid
-./scripts/generate_qa_predictions_hf.sh --m unqover-bert-large-uncased-newsqa --m_name newsqa_bertlarge --d $d --gpuid $gpuid
+./scripts/generate_qa_predictions_hf.sh --m unqover-roberta-base-newsqa --m_name newsqa_robertabase --d $d --extra newsqa --gpuid $gpuid
+./scripts/generate_qa_predictions_hf.sh --m unqover-roberta-large-newsqa --m_name newsqa_robertalarge --d $d --extra newsqa --gpuid $gpuid
+./scripts/generate_qa_predictions_hf.sh --m unqover-distilbert-base-uncased-newsqa --m_name newsqa_distilbert --d $d --extra newsqa --gpuid $gpuid
+./scripts/generate_qa_predictions_hf.sh --m unqover-bert-base-uncased-newsqa --m_name newsqa_bertbase --d $d --extra newsqa --gpuid $gpuid
+./scripts/generate_qa_predictions_hf.sh --m unqover-bert-large-uncased-newsqa --m_name newsqa_bertlarge --d $d --extra newsqa --gpuid $gpuid

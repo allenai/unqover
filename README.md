@@ -67,10 +67,10 @@ which will download and unpack model predictions into ``./data/``.
 
 *Alternatively*, you can generate the underspecified examples and use pre-trained models (will be downloaded automatically) to predict on them:
 ```
-./scripts/generate_questions.sh
+./scripts/generate_questions.sh --extra newsqa
 ./scripts/generate_predictions.sh --d gender,country,ethnicity,religion --gpuid [GPUID]
 ```
-where ``[GPUID]`` is the GPU device index. The process will take *many* hours to finish, and predictions will dumped to ``./data/``, same as above.
+where ``[GPUID]`` is the GPU device index. The first command will generate examples for masked LM, SQuad models, and NewsQA models. The second command will take *many* hours to finish inference, and will dump predictions to ``./data/``, same as above.
 
 **Get Evaluations**
 
