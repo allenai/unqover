@@ -27,7 +27,7 @@ and code for training and evaluating QA and LMs.
 
 First make a data directory ``mkdir ./data``. All generated data, model predictions, and analysis logs will be dumped there.
 Further, ``mkdir ./models`` to hold trained models. 
-In addition to the dependency listed in ``requirements.txt``, please install Nvidia-Apex [here](https://github.com/NVIDIA/apex).
+In addition to the dependency listed in ``requirements.txt``, please install Nvidia-apex [here](https://github.com/NVIDIA/apex).
 
 The modules in this repo are structured like this:
 ```
