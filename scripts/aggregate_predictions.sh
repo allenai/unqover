@@ -4,6 +4,8 @@ set -e
 
 m_name=${m_name}
 d=${d}
+extra=${extra} # default to empty meaning no filler to use
+group=${group:-subj_act}
 
 
 if [ "$1" == "-h" ]; then
@@ -11,6 +13,7 @@ if [ "$1" == "-h" ]; then
   echo "   --m_name      A brief name of the QA model, used to compose output path, e.g., in {robertabase, robertalarge, bertbase, bertlarge, distilbert}"
   echo "   --d           A list of dataset types, separated by comma, must be in {gender, country, religion, ethnicity}"
   echo "   --extra       A filler; specify this if to use source file generated with extra filler, e.g., newsqa"
+  echo "   --group       How prediction scores will be grouped/aggregated, either 'subj_act' or 'subj'"
   echo "   -h           Print the help message and exit"
   exit 0
 fi
@@ -42,13 +45,14 @@ for m_namei in $m_name
 do
 	for di in $d
 	do
-		# TODO, should support group by subj as well
 		case "$di" in
-	    	gender)
-	    	    GROUP_BY="gender_act"
+	    	"gender")
+	    	   	GROUP_BY="gender_act"	# for gender data, gender_act is the only option
 	    	    ;;
 	    	*)
-	    	    GROUP_BY="subj_act"
+				# keep it as-is
+	    	    #GROUP_BY="subj_act"
+	    	    GROUP_BY=$group
 	    	    ;;
 		esac
 
