@@ -10,7 +10,7 @@ if [ "$1" == "-h" ]; then
 fi
 
 echo "======================================="
-echo    "      GENERATING QUESTIONS"
+echo "         GENERATING QUESTIONS"
 echo "======================================="
 
 echo ">> Will generate 6GB of data(~13.5M questions)"
