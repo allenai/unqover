@@ -71,7 +71,7 @@ do
     fi
 
     echo ">> Will dump predictions to ./data/"${OUTPUT}.output.json
-    echo ">> Input file "${FILE}
+    echo ">> Input file "${FILE}.source.json
 
     python3 -u -m qa_hf.predict --gpuid ${gpuid} \
     --hf_model ${m} \
