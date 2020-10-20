@@ -42,7 +42,7 @@ The modules in this repo are structured like this:
 
 And the flow of this readme is:
 * [Reproducing Our Results (the fast way)](#reproducing_our_results)
-* [Starting From Scratch (the slow way)](#start_from_scratch)
+* [Starting From Scratch (the slow way)](#starting_from_scratch)
   * [Step 1](#generation): How to generate underspecified examples from scratch
   * [Step 2](#prediction): How to use trained QA or pre-trained LMs to predict on the generated examples
   * [Step 3](#evaluation): How to run analysis over model predictions
@@ -83,7 +83,7 @@ Now, you can jump to [Step 4](#visualization) of this readme for visualization.
 
 ---
 
-<a name="start_from_scratch"></a>
+<a name="starting_from_scratch"></a>
 # Starting From Scratch
 Here we describe how to start from templates, to model training, to model predictions, to evaluation, and to visualization.
 
