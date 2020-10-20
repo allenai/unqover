@@ -368,7 +368,7 @@ python3 -u -m qa.predict --gpuid [GPUID] \
   --load_file models/${MODEL} --transformer_type $BERT_TYPE \
   --input ${FILE}.source.json --output ./data/${OUTPUT}.output.json
 ```
-where the ``$FILE`` and ``$OUTPUT`` customized for each data and QA model. Please refer to the Section **Prediction** above.
+where the ``$FILE`` and ``$OUTPUT`` customized for each data and QA model. Please refer to the [Step 2](#prediction) above.
 
 Alternatively, you can convert the HDF5 model into HuggingFace's format via:
 ```
