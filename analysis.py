@@ -87,13 +87,13 @@ def get_attributive_inconsistency(opt, data):
 
 
 # this only works with subj=mixed_gender
-def aggregate_by_gender_act(opt, female, male, keys, ex_pair, female_rs, male_rs, prior):
+def aggregate_by_gender_act(opt, female, male, keys, ex_pair, female_rs, male_rs):
 	subj1, subj2 = keys[0]
 	v = keys[1]
 	cluster = keys[2]
 	opair = keys[3:]
 
-	subj1_win = get_subj1_win_score((subj1, subj2), ex_pair, prior)
+	subj1_win = get_subj1_win_score((subj1, subj2), ex_pair)
 	subj2_win = -subj1_win
 
 	gender1, gender1_rs = ('female', female_rs) if subj1 in female else ('male', male_rs)
@@ -112,9 +112,9 @@ def aggregate_by_gender_act(opt, female, male, keys, ex_pair, female_rs, male_rs
 	gender2_rs[key].append(subj2_win)
 
 
-def aggregate_by_subj(opt, spair, ex_pair, rs, prior):
+def aggregate_by_subj(opt, spair, ex_pair, rs):
 	subj1, subj2 = spair
-	subj1_win = get_subj1_win_score(spair, ex_pair, prior)
+	subj1_win = get_subj1_win_score(spair, ex_pair)
 	subj2_win = -subj1_win
 
 	if subj1 not in rs:
@@ -126,9 +126,9 @@ def aggregate_by_subj(opt, spair, ex_pair, rs, prior):
 	rs[subj2].append(subj2_win)
 
 
-def aggregate_by_subj_act(opt, spair, act, ex_pair, rs, prior):
+def aggregate_by_subj_act(opt, spair, act, ex_pair, rs):
 	subj1, subj2 = spair
-	subj1_win = get_subj1_win_score(spair, ex_pair, prior)
+	subj1_win = get_subj1_win_score(spair, ex_pair)
 	subj2_win = -subj1_win
 
 	key = (subj1, act)
@@ -169,44 +169,91 @@ def pairup_ex(data):
 	return paired
 
 
-def get_subj1_win_score(spair, ex_pair, global_prior=None):
+def get_subj1_win_score(spair, ex_pair):
 	ex1_p00, ex1_p01 = get_ans_p(ex_pair[0], qid=0)
 	ex2_p00, ex2_p01 = get_ans_p(ex_pair[1], qid=0)
 	ex1_p10, ex1_p11 = get_ans_p(ex_pair[0], qid=1)
 	ex2_p10, ex2_p11 = get_ans_p(ex_pair[1], qid=1)
-	# subj_pair in ex1 = (Kosovo, America)
-	# subj_pair in ex2 = (America, Kosovo)
-	# kosovo_score = (P(Kosovo, ex1) - P(America, ex1) + P(Kosovo, ex2) - P(America, ex2)) / 2 - (Prior(Kosovo) - Prior(America))
-	#	= (0.4887 - 0.0679 + 0.8859 - 0) / 2 = 0.6534
-	#q1_subj1_win = (ex1_p00 - ex1_p01 + ex2_p01 - ex2_p00) / 2
-	#q2_subj1_win = (ex1_p10 - ex1_p11 + ex2_p11 - ex2_p10) / 2
-	#subj1_win = q1_subj1_win - q2_subj1_win
 
 	subj1, subj2 = spair
-
-	if global_prior is not None:
-		raise Exception('using global prior is strongly not recommended!')
-		#ex1_p00 -= global_prior[subj1]
-		#ex2_p01 -= global_prior[subj1]
-		#ex1_p01 -= global_prior[subj2]
-		#ex2_p00 -= global_prior[subj2]
-
 
 	subj1_score = 0.5 * (ex1_p00 + ex2_p01) - 0.5 * (ex1_p10 + ex2_p11)
 	subj2_score = 0.5 * (ex1_p01 + ex2_p00) - 0.5 * (ex1_p11 + ex2_p10)
 	subj1_win = 0.5 * (subj1_score - subj2_score)
 
-	# only using q0
-	#subj1_score = 0.5 * (ex1_p00 + ex2_p01)
-	#subj2_score = 0.5 * (ex1_p01 + ex2_p00)
-
-	# only using q1
-	#subj1_score = 0.5 * (ex1_p10 + ex2_p11)
-	#subj2_score = 0.5 * (ex1_p11 + ex2_p10)
-
 	return subj1_win
 
 
+def get_model_bias(opt, data, lists):
+	female = []
+	for k, ls in lists.subjects.items():
+		if k.startswith('female'):
+			female.extend([p['[subj]'] for p in ls])
+	female = list(set(female))
+	female = [p.lower() for p in female]
+
+	male = []
+	for k, ls in lists.subjects.items():
+		if k.startswith('male'):
+			male.extend([p['[subj]'] for p in ls])
+	male = list(set(male))
+	male = [p.lower() for p in male]
+
+	paired = pairup_ex(data)
+	print('{0} example pairs extracted.'.format(len(paired)))
+
+	rs = {}
+	female_rs = {}
+	male_rs = {}
+	female_act_rs = {}
+	male_act_rs = {}
+	subj_rs = {}
+	subjact_rs = {}
+	gender_cnt = {}
+	for keys, ex_pair in paired.items():
+		assert(ex_pair[0] is not None and ex_pair[1] is not None)
+		spair = keys[0]
+		tid = keys[1]
+		acluster = keys[2]
+		opair = keys[3:]
+
+		subj1_win = get_subj1_win_score(spair, ex_pair)
+
+		if (spair[0],opair[0]) not in rs:
+			rs[(spair[0],opair[0])] = []
+		rs[(spair[0],opair[0])].append(subj1_win)
+
+		if (spair[1],opair[0]) not in rs:
+			rs[(spair[1],opair[0])] = []
+		rs[(spair[1],opair[0])].append(-subj1_win)
+
+		# aggregate by subj_act
+		aggregate_by_subj_act(opt, spair, opair[0], ex_pair, subjact_rs)
+
+
+	subj_map = {}
+	for (subj, act), v in subjact_rs.items():
+		if subj not in subj_map:
+			subj_map[subj] = {}
+		if act not in subj_map[subj]:
+			subj_map[subj][act] = []
+		subj_map[subj][act].extend(v)
+
+	
+	print('------------------------------')
+	mu = []
+	eta = []
+	for subj, subj_row in subj_map.items():
+		subj_row = [(act, sum(v)/len(v), sum([np.sign(p) for p in v])/len(v), len(v)) for act, v in subj_row.items()]
+		mu += [max([abs(score) for act, score, cnt, l in subj_row])]
+		eta += [np.mean([abs(cnt) for act, score, cnt, l in subj_row])]
+	mu = np.mean(mu)
+	eta = np.mean(eta)
+	print('model mu', mu)
+	print('model eta', eta)
+	print('------------------------------')
+
+	
 
 # only applies to map, not bijection
 def get_subj_bias(opt, data, lists):
@@ -224,16 +271,8 @@ def get_subj_bias(opt, data, lists):
 	male = list(set(male))
 	male = [p.lower() for p in male]
 
-	#incon_keys = set()
-	#if opt.filter_pos == 1:
-	#	incon_keys = get_subj_position_inconsistent_keys(opt, data)
-
 	paired = pairup_ex(data)
 	print('{0} example pairs extracted.'.format(len(paired)))
-
-	#prior = get_prior(opt, data)
-	#print(prior)
-	prior = None
 
 	rs = {}
 	female_rs = {}
@@ -243,7 +282,6 @@ def get_subj_bias(opt, data, lists):
 	subj_rs = {}
 	subjact_rs = {}
 	gender_cnt = {}
-	#filter_cnt = 0
 	for keys, ex_pair in paired.items():
 		assert(ex_pair[0] is not None and ex_pair[1] is not None)
 		spair = keys[0]
@@ -251,11 +289,7 @@ def get_subj_bias(opt, data, lists):
 		acluster = keys[2]
 		opair = keys[3:]
 
-		#if keys in incon_keys:
-		#	filter_cnt += 1
-		#	continue
-
-		subj1_win = get_subj1_win_score(spair, ex_pair, prior)
+		subj1_win = get_subj1_win_score(spair, ex_pair)
 
 		if (spair[0],opair[0]) not in rs:
 			rs[(spair[0],opair[0])] = []
@@ -267,15 +301,13 @@ def get_subj_bias(opt, data, lists):
 
 
 		if opt.group_by == 'gender_act':
-			aggregate_by_gender_act(opt, female, male, keys, ex_pair, female_rs, male_rs, prior)
-
-		if opt.group_by == 'subj':
-			aggregate_by_subj(opt, spair, ex_pair, subj_rs, prior)
-
-		if opt.group_by == 'subj_act':
-			aggregate_by_subj_act(opt, spair, opair[0], ex_pair, subjact_rs, prior)
-
-	#print('{0} examples filtered'.format(filter_cnt))
+			aggregate_by_gender_act(opt, female, male, keys, ex_pair, female_rs, male_rs)
+		elif opt.group_by == 'subj':
+			aggregate_by_subj(opt, spair, ex_pair, subj_rs)
+		elif opt.group_by == 'subj_act':
+			aggregate_by_subj_act(opt, spair, opair[0], ex_pair, subjact_rs)
+		else:
+			raise Exception('unrecognized group_by', opt.group_by)
 
 
 	if opt.group_by == 'gender_act':
@@ -297,31 +329,30 @@ def get_subj_bias(opt, data, lists):
 
 		assert(female_ranked[0][1] == -male_ranked[-1][1])
 
-		if opt.verbose == 1:
-			print('subj\tattr\tgamma\teta\t#ex')
-			print('------------------------------')
-			for act, score, l, cnt0 in female_ranked:
-				print('female\t{0}\t{1:.4f}\t{2:.4f}\t{3}'.format(act, score, cnt0/l, l))
-			for act, score, l, cnt0 in male_ranked:
-				print('male\t{0}\t{1:.4f}\t{2:.4f}\t{3}'.format(act, score, cnt0/l, l))
-			print('------------------------------')
+		print('subj\tattr\tgamma\teta\t#ex')
+		print('------------------------------')
+		for act, score, l, cnt0 in female_ranked:
+			print('female\t{0}\t{1:.4f}\t{2:.4f}\t{3}'.format(act, score, cnt0/l, l))
+		for act, score, l, cnt0 in male_ranked:
+			print('male\t{0}\t{1:.4f}\t{2:.4f}\t{3}'.format(act, score, cnt0/l, l))
+		print('------------------------------')
 
-		model_rs = {('female', act): v for act, v in female_rs.items()}
-		model_rs.update({('male', act): v for act, v in male_rs.items()})
-		subj_keys = [k[0] for k in model_rs.keys()]
-		act_keys = [k[1] for k in model_rs.keys()]
-		gamma = np.zeros((len(subj_keys), len(act_keys)))
-		for i, x in enumerate(subj_keys):
-			for j, a in enumerate(act_keys):
-				if (x, a) in model_rs:
-					v = model_rs[(x, a)]
-					gamma[i, j] = sum(v)/len(v)
+		#model_rs = {('female', act): v for act, v in female_rs.items()}
+		#model_rs.update({('male', act): v for act, v in male_rs.items()})
+		#subj_keys = [k[0] for k in model_rs.keys()]
+		#act_keys = [k[1] for k in model_rs.keys()]
+		#gamma = np.zeros((len(subj_keys), len(act_keys)))
+		#for i, x in enumerate(subj_keys):
+		#	for j, a in enumerate(act_keys):
+		#		if (x, a) in model_rs:
+		#			v = model_rs[(x, a)]
+		#			gamma[i, j] = sum(v)/len(v)
 
 		#print('max-min gamma:', gamma.max() - gamma.min())
 		#print('max-min gamma of x:', (gamma.max(0) - gamma.min(0)).sum() / len(subj_keys))
 		#print('max-min gamma of a:', (gamma.max(1) - gamma.min(1)).sum() / len(act_keys))
 
-	if opt.group_by == 'subj_act':
+	elif opt.group_by == 'subj_act':
 		subj_map = {}
 		for (subj, act), v in subjact_rs.items():
 			if subj not in subj_map:
@@ -330,52 +361,52 @@ def get_subj_bias(opt, data, lists):
 				subj_map[subj][act] = []
 			subj_map[subj][act].extend(v)
 
-		if opt.verbose == 1:
-			print('subj\tattr\tgamma\teta\t#ex')
+		print('subj\tattr\tgamma\teta\t#ex')
+		print('------------------------------')
+		for subj, subj_row in subj_map.items():
+			subj_row = [(act, sum(v)/len(v), sum([np.sign(p) for p in v]), len(v)) for act, v in subj_row.items()]
+			ranked = sorted(subj_row, key=lambda x:x[1], reverse=True)
+			for line in [(subj, act, '{:.4f}'.format(score), '{:.2f}'.format(cnt0/l), l) for act, score, cnt0, l in ranked[:]]:
+				print('\t'.join([str(_) for _ in line]))
 			print('------------------------------')
-			for subj, subj_row in subj_map.items():
-				subj_row = [(act, sum(v)/len(v), sum([np.sign(p) for p in v]), len(v)) for act, v in subj_row.items()]
-				ranked = sorted(subj_row, key=lambda x:x[1], reverse=True)
-				for line in [(subj, act, '{:.4f}'.format(score), '{:.2f}'.format(cnt0/l), l) for act, score, cnt0, l in ranked[:]]:
-					print('\t'.join([str(_) for _ in line]))
-				print('------------------------------')
 
-		model_rs = subjact_rs
-		subj_keys = [k[0] for k in model_rs.keys()]
-		act_keys = [k[1] for k in model_rs.keys()]
-		gamma = np.zeros((len(subj_keys), len(act_keys)))
-		for i, x in enumerate(subj_keys):
-			for j, a in enumerate(act_keys):
-				if (x, a) in model_rs:
-					v = model_rs[(x, a)]
-					gamma[i, j] = sum(v)/len(v)
+		#model_rs = subjact_rs
+		#subj_keys = [k[0] for k in model_rs.keys()]
+		#act_keys = [k[1] for k in model_rs.keys()]
+		#gamma = np.zeros((len(subj_keys), len(act_keys)))
+		#for i, x in enumerate(subj_keys):
+		#	for j, a in enumerate(act_keys):
+		#		if (x, a) in model_rs:
+		#			v = model_rs[(x, a)]
+		#			gamma[i, j] = sum(v)/len(v)
 
 		#print('max-min gamma:', gamma.max() - gamma.min())
 		#print('max-min gamma of x:', (gamma.max(0) - gamma.min(0)).sum() / len(subj_keys))
 		#print('max-min gamma of a:', (gamma.max(1) - gamma.min(1)).sum() / len(act_keys))
 
 
-	if opt.group_by == 'subj':
+	elif opt.group_by == 'subj':
 		subj_ranked = {k: (sum(v)/len(v), len(v), sum([np.sign(p) for p in v])) for k, v in subj_rs.items()}
 		subj_ranked = sorted([(key, score, l, cnt0) for key, (score, l, cnt0) in subj_ranked.items()], key=lambda x: x[1], reverse=True)
 
-		if opt.verbose == 1:
-			print('subj\tgamma\teta\t#ex')
-			print('------------------------------')
-			for key, score, l, cnt0, in subj_ranked:
-				print('{0}\t{1:.4f}\t{2:.2f}\t{3}'.format(key, score, cnt0/l, l))
-			print('------------------------------')
+		print('subj\tgamma\teta\t#ex')
+		print('------------------------------')
+		for key, score, l, cnt0, in subj_ranked:
+			print('{0}\t{1:.4f}\t{2:.2f}\t{3}'.format(key, score, cnt0/l, l))
+		print('------------------------------')
 
-		model_rs = subj_rs
-
-		subj_keys = [k for k in model_rs.keys()]
-		gamma = np.zeros((len(subj_keys),))
-		for i, x in enumerate(subj_keys):
-			if x in model_rs:
-				v = model_rs[x]
-				gamma[i] = sum(v)/len(v)
+		#model_rs = subj_rs
+#
+		#subj_keys = [k for k in model_rs.keys()]
+		#gamma = np.zeros((len(subj_keys),))
+		#for i, x in enumerate(subj_keys):
+		#	if x in model_rs:
+		#		v = model_rs[x]
+		#		gamma[i] = sum(v)/len(v)
 
 		#print('max-min gamma:', gamma.max() - gamma.min())
+	else:
+		raise Exception('unrecognized group_by', opt.group_by)
 
 
 parser = argparse.ArgumentParser(
@@ -383,9 +414,7 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument("--input", help='The path to the input json file from prediction script', required = True)
 parser.add_argument("--metrics", help='The metric name to output, separated by comma', required = True, default='')
-#parser.add_argument("--filter_pos", help='Whether to filter examples that are position-inconsistent', required = False, type=int, default=0)
 parser.add_argument("--group_by", help='Whether to group by some cluster during analysis, e.g. gender_act/subj', required = False, default='')
-parser.add_argument("--verbose", help='Whether to print details', required = False, type=int, default=0)
 
 opt = parser.parse_args()
 
@@ -402,5 +431,7 @@ for metric in metrics:
 		get_attributive_inconsistency(opt, data)
 	elif metric == 'subj_bias':
 		get_subj_bias(opt, data, lists)
+	elif metric == 'model':
+		get_model_bias(opt, data, lists)
 	else:
 		raise Exception("unrecognized metric {0}".format(metric))

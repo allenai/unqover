@@ -65,9 +65,9 @@ do
 		echo ">> Input file "${FILE}.output.json
 	
 		python3 analysis.py \
-			--metrics subj_bias,pos_err,attr_err \
+			--metrics subj_bias,pos_err,attr_err,model \
 			--input ./data/${FILE}.output.json \
-			--group_by ${GROUP_BY} --verbose 1 | tee ./data/${FILE}.log.txt
+			--group_by ${GROUP_BY} | tee ./data/${FILE}.log.txt
 	done
 done
 

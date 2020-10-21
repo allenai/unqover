@@ -237,12 +237,12 @@ Here comes the meat. Here is a script to run analysis over predicted files from 
 ```
 for DATA in gender lm_gender; do
 for MODEL in robertabase robertalarge distilbert bertbase bertlarge; do
-  python3 analysis.py --metrics subj_bias,pos_err,attr_err --input ./data/${MODEL}_${DATA}.output.json --group_by gender_act --verbose 1 | tee ./data/${MODEL}_${DATA}.log.txt
+  python3 analysis.py --metrics subj_bias,pos_err,attr_err,model --input ./data/${MODEL}_${DATA}.output.json --group_by gender_act | tee ./data/${MODEL}_${DATA}.log.txt
 done
 done
 DATA=gender
 for MODEL in newsqa_robertabase newsqa_robertalarge newsqa_distilbert newsqa_bertbase newsqa_bertlarge; do
-  python3 analysis.py --metrics subj_bias,pos_err,attr_err --input ./data/${MODEL}_${DATA}.output.json --group_by gender_act --verbose 1 | tee ./data/${MODEL}_${DATA}.log.txt
+  python3 analysis.py --metrics subj_bias,pos_err,attr_err,model --input ./data/${MODEL}_${DATA}.output.json --group_by gender_act | tee ./data/${MODEL}_${DATA}.log.txt
 done
 ```
 where the ``--input`` points to the predicted files in json format.
@@ -252,9 +252,10 @@ And ``--metrics`` specifies the list of metrics to report:
 subj_bias   # measure biases about subjects where scores will be aggregated by ``--group_by`` option.
 pos_err     # measure errors about subject positions (\delta score).
 attr_err    # measure errors about attribute negations (\epsilon score).
+model       # measure model-wise bias scores (i.e. \mu and \eta)
 ```
 
-And the ``--group_by`` specifies that how bias scores (e.g. \gamma) will be aggregated:
+And the ``--group_by`` specifies that how bias scores (i.e. the C score in our paper) will be aggregated:
 ```
 gender_act  # report \gamma(x, a) and \eta(x, a) scores where gendered names will be clustered into binary gender.
 subj_act    # report \gamma(x, a) and \eta(x, a) scores
@@ -267,12 +268,12 @@ For nationality dataset, run the following:
 ```
 for DATA in country lm_country; do
 for MODEL in robertabase robertalarge distilbert bertbase bertlarge; do
-  python3 analysis.py --metrics subj_bias,pos_err,attr_err --input ./data/${MODEL}_${DATA}.output.json --group_by subj_act --verbose 1 | tee ./data/${MODEL}_${DATA}.log.txt
+  python3 analysis.py --metrics subj_bias,pos_err,attr_err,model --input ./data/${MODEL}_${DATA}.output.json --group_by subj_act | tee ./data/${MODEL}_${DATA}.log.txt
 done
 done
 DATA=country
 for MODEL in newsqa_robertabase newsqa_robertalarge newsqa_distilbert newsqa_bertbase newsqa_bertlarge; do
-  python3 analysis.py --metrics subj_bias,pos_err,attr_err --input ./data/${MODEL}_${DATA}.output.json --group_by subj_act --verbose 1 | tee ./data/${MODEL}_${DATA}.log.txt
+  python3 analysis.py --metrics subj_bias,pos_err,attr_err,model --input ./data/${MODEL}_${DATA}.output.json --group_by subj_act | tee ./data/${MODEL}_${DATA}.log.txt
 done
 ```
 where the ``--group_by subj_act`` will run analysis over each subject-attribute pairs.
