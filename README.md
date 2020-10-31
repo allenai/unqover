@@ -25,8 +25,7 @@ and code for training and evaluating QA and LMs.
 
 ---
 
-First make a data directory ``mkdir ./data``. All generated data, model predictions, and analysis logs will be dumped there.
-Further, ``mkdir ./models`` to hold trained models. 
+First make a data directory ``./data`` to hold generated examples and model predictions.
 In addition to the dependency listed in ``requirements.txt``, please install Nvidia-apex [here](https://github.com/NVIDIA/apex).
 
 The modules in this repo are structured like this:
@@ -70,7 +69,7 @@ which will download and unpack model predictions into ``./data/``.
 ./scripts/generate_questions.sh --extra newsqa
 ./scripts/generate_predictions.sh --d gender,country,ethnicity,religion --gpuid [GPUID]
 ```
-where ``[GPUID]`` is the GPU device index. The first command will generate examples for masked LM, SQuad models, and NewsQA models. The second command will take *many* hours to finish inference, and will dump predictions to ``./data/``, same as above.
+where ``[GPUID]`` is the GPU device index. The first command will generate examples for masked LM, SQuAD models, and NewsQA models. The second command will take *many* hours to finish inference, and will dump predictions to ``./data/``, same as above.
 
 **Get Evaluations**
 
@@ -183,7 +182,22 @@ To do that, simply specify ``--filler newsqa`` when calling the ``generate_under
 
 This step covers how to use trained models to predict on the underspecified examples (``source.json``). Results will be saved as ``output.json`` files at ``./data/``.
 
-Assuming QA models are already trained via HuggingFace's interfaces, e.g., ``run_squad.py``, we will show how to run trained model over the generated data.
+We will use our pre-trained QA models that are automatically downloadable via HuggingFace's model hub.
+The complete list of pre-trained QA models are:
+
+```
+tli8hf/unqover-bert-base-uncased-newsqa
+tli8hf/unqover-bert-base-uncased-squad
+tli8hf/unqover-bert-large-uncased-newsqa
+tli8hf/unqover-bert-large-uncased-squad
+tli8hf/unqover-distilbert-base-uncased-newsqa
+tli8hf/unqover-distilbert-base-uncased-squad
+tli8hf/unqover-roberta-base-newsqa
+tli8hf/unqover-roberta-base-squad
+tli8hf/unqover-roberta-large-newsqa
+tli8hf/unqover-roberta-large-squad
+```
+
 In case you need to train QA models from scratch, please jump to the [Appendix](#appendix) below and look for model training instructions.
 
 Here we will use the gender-occupation data as an illustration.
@@ -191,24 +205,21 @@ The same script pattern applies to other datasets.
 
 ### Using QA models on gender-occupation data
 
-Assuming a RoBERTa-base SQuAD model is located at ``./models/roberta-base-squad/``, which is trained via HuggingFace's ``run_squad.py``, let us use it to predict on the gender-occupation dataset:
+Let's say you want to use a RoBERTa base version fine-tuned on SQuAD:
 ```
 TYPE=slot_act_map
 SUBJ=mixed_gender
 SLOT=gender_noact
 ACT=occupation_rev1
 FILE=slotmap_${SUBJ//_}_${ACT//_}_${SLOT//_}
-MODEL=./models/roberta-base-squad/
+MODEL=tli8hf/unqover-roberta-base-squad
 python3 -m qa_hf.predict --gpuid [GPUID] \
   --hf_model ${MODEL} \
   --input ${FILE}.source.json --output ./data/robertabase_gender.output.json
 ```
 where ``[GPUID]`` is the device index. A prediction json file will be dumped (kinda large, ~few GB).
-There are few QA models already trained by HuggingFace. To use them just set the ``--hf_model`` to the QA model name, e.g.:
+The ``--hf_model`` option points to the pre-trained QA model stored in HuggingFace's format.
 
-```
---hf_model bert-large-uncased-whole-word-masking-finetuned-squad
-```
 
 ### Using masked LMs on gender-occupation data
 
@@ -233,7 +244,7 @@ This step covers how to analyze over model predictions (``output.json``). Analys
 
 ### Evaluating on gender-occupation data
 
-Here comes the meat. Here is a script to run analysis over predicted files from the 15 models on the gender-occupatin data:
+Here comes the meat. Here is a script to run analysis over predicted files from the 15 models (5 masked LM, 5 SQuAD, and 5 NewsQA) on the gender-occupatin data:
 ```
 for DATA in gender lm_gender; do
 for MODEL in robertabase robertalarge distilbert bertbase bertlarge; do
@@ -363,13 +374,13 @@ python3 -u -m qa.train --gpuid $GPUID --dir data/newsqa/ \
 where ``[GPUID]`` specifies the GPU device index.
 It will dump a trained model (in hdf5 format) to the ``./data/`` directory.
 
-Note that the saved model is not in HuggingFace's format, so we need a different prediction step:
+Since the saved model is not in HuggingFace's format, we need a different prediction script:
 ```
 python3 -u -m qa.predict --gpuid [GPUID] \
   --load_file models/${MODEL} --transformer_type $BERT_TYPE \
   --input ${FILE}.source.json --output ./data/${OUTPUT}.output.json
 ```
-where the ``$FILE`` and ``$OUTPUT`` customized for each data and QA model. Please refer to the [Step 2](#prediction) above.
+where the ``$FILE`` and ``$OUTPUT`` should be customized for each data and QA model. Please refer to the [Step 2](#prediction) above.
 
 Alternatively, you can convert the HDF5 model into HuggingFace's format via:
 ```
