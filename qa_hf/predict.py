@@ -222,9 +222,9 @@ def main(args):
 		tok_idx = batch_tok_idx[cnt:cnt+step_size, :concated_l.max()]
 		att_mask = batch_att_mask[cnt:cnt+step_size, :concated_l.max()]
 		type_idx = batch_type_idx[cnt:cnt+step_size, :concated_l.max()]
-		context_l = batch_context_l[cnt:cnt+step_size]
-		query_l = batch_query_l[cnt:cnt+step_size]
-		context_start = batch_context_start[cnt:cnt+step_size]
+		#context_l = batch_context_l[cnt:cnt+step_size]
+		#query_l = batch_query_l[cnt:cnt+step_size]
+		#context_start = batch_context_start[cnt:cnt+step_size]
 
 		tok_idx = to_device(Variable(tok_idx, requires_grad=False), opt.gpuid)
 		att_mask = to_device(Variable(att_mask, requires_grad=False), opt.gpuid)
