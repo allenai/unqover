@@ -142,7 +142,8 @@ def aggregate_by_subj_act(opt, spair, act, ex_pair, rs):
 	rs[key].append(subj2_win)
 
 
-
+# Pairing up examples generated as (subj1, subj2) with examples generated as (subj2, subj1) (i.e. their subj-swapped version)
+#	they can be queried via the sorted list of (sub1, subj2)
 def pairup_ex(data):
 	paired = {}
 	for keys, ex in data.items():
@@ -165,7 +166,7 @@ def pairup_ex(data):
 		elif key[0][1] == spair[0]:
 			paired[key][1] = ex
 		else:
-			assert(False)
+			raise Excetion("Something weird happend to this example: ", keys, ex)
 	return paired
 
 
@@ -211,7 +212,6 @@ def get_model_bias(opt, data, lists):
 	subjact_rs = {}
 	gender_cnt = {}
 	for keys, ex_pair in paired.items():
-		assert(ex_pair[0] is not None and ex_pair[1] is not None)
 		spair = keys[0]
 		tid = keys[1]
 		acluster = keys[2]
@@ -283,7 +283,6 @@ def get_subj_bias(opt, data, lists):
 	subjact_rs = {}
 	gender_cnt = {}
 	for keys, ex_pair in paired.items():
-		assert(ex_pair[0] is not None and ex_pair[1] is not None)
 		spair = keys[0]
 		tid = keys[1]
 		acluster = keys[2]
