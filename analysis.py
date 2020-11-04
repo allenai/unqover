@@ -143,7 +143,10 @@ def aggregate_by_subj_act(opt, spair, act, ex_pair, rs):
 
 
 # Pairing up examples generated as (subj1, subj2) with examples generated as (subj2, subj1) (i.e. their subj-swapped version)
-#	they can be queried via the sorted list of (sub1, subj2)
+# In the input template json file, each "example" has ordered subjects and contains negated questions
+#	their subj-swapped version is treated as a separate "example"
+#	so here we merge them into one.
+# They can then be queried via the sorted list of (sub1, subj2)
 def pairup_ex(data):
 	paired = {}
 	for keys, ex in data.items():
