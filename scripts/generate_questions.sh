@@ -78,7 +78,7 @@ fi
 
 for CLASS in ethnicity country religion
 do
-    echo "========  ${CLASS^^} ========="
+    echo "========  ${CLASS} ========="
 
     TYPE=slot_act_map
     SUBJ=$CLASS
