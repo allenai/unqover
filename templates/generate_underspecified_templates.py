@@ -48,8 +48,8 @@ def compose_subj_act_bij_json(context, choices, spair, tid, apair, s_clusters, a
     key = '{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}'.format(s_clusters[0], s_clusters[1], spair[0], spair[1], tid, act_cluster, apair[0], apair[1])
     rs[key] = {}
     rs[key]['context'] = context
-    rs[key]['q0'] = {'question': q_ls[0], 'pred': '[TODO]', 'ans0': {'text': choices[0], 'start': '[TODO]', 'end': '[TODO]'}, 'ans1': {'text': choices[1], 'start': '[TODO]', 'end': '[TODO]'}} 
-    rs[key]['q1'] = {'question': q_ls[1], 'pred': '[TODO]', 'ans0': {'text': choices[0], 'start': '[TODO]', 'end': '[TODO]'}, 'ans1': {'text': choices[1], 'start': '[TODO]', 'end': '[TODO]'}}
+    rs[key]['q0'] = {'question': q_ls[0], 'pred': '', 'ans0': {'text': choices[0], 'start': '', 'end': ''}, 'ans1': {'text': choices[1], 'start': '', 'end': ''}} 
+    rs[key]['q1'] = {'question': q_ls[1], 'pred': '', 'ans0': {'text': choices[0], 'start': '', 'end': ''}, 'ans1': {'text': choices[1], 'start': '', 'end': ''}}
     return rs
 
 
