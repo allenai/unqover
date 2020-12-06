@@ -24,7 +24,6 @@ class Lists:
 
     5. verbs: A dictionary of common verbs, grouped by their
     type. These are loaded from data_dir/verbs.
-
     """
 
     
@@ -52,11 +51,9 @@ class Lists:
 
     def load_dir(self, dir_name):
         out = {}
-        #print("Loading " + dir_name)
         for name in os.listdir(dir_name):
             file_name = os.path.join(dir_name, name)
             out[name] = self.load_list(file_name)
-            #print("\t" + str(len(out[name])) + " " + name + " words ")
         return out
                                 
     
@@ -74,8 +71,6 @@ class Lists:
                     out.append(item)
                 elif item in self.known_words:
                     out.append(item)
-                # else:
-                #     print >> sys.stderr, ("Ignoring unknown word: " + item)
             return out
 
     def __make_unordered_pairs(self, ls, add_flip=False):
@@ -116,7 +111,6 @@ class Lists:
                 cluster, t = strip_t(t)
                 rs[i][k] = t
                 rs[i]['cluster'] = cluster
-
         return rs
 
     def __extract_activities(self, ls):
