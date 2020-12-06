@@ -6,7 +6,6 @@ import json
 
 def get_subject_pairs(opt, lists):
     rs = None
-    excl = None if opt.subj_excl == '' else opt.subj_excl.split(',')
 
     if 'mixed_gender' in opt.subj:
         if opt.subj == 'mixed_gender':
