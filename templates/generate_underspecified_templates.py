@@ -1,5 +1,3 @@
-#import sys
-#sys.path.insert(0, './templates')
 from .underspecified_templates import *
 from .lists import Lists
 import argparse
@@ -100,13 +98,5 @@ if opt.template_type == 'slot_act_map':
 else:
     raise Exception('unrecognized template_type {0}'.format(opt.template_type))
 
-
-
 print('writing to {0}'.format(opt.output))
 json.dump(rs, open(opt.output, 'w'), indent=4)
-            
-
-        
-    
-
-
