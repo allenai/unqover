@@ -17,9 +17,10 @@ from .pipeline import *
 
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-parser.add_argument('--dir', help="Path to the data dir", default="data/underspecified_qa_templates/")
+parser.add_argument('--dir', help="Path to the data dir", default="data/squad/")
 parser.add_argument('--data', help="Path to training data hdf5 file.", default="")
 parser.add_argument('--load_file', help="Path to where model to be loaded.", default="")
+parser.add_argument('--is_hf', help="Whether the load_file points to a hf model (either online or local)", type=int, default=0)
 # resource specs
 parser.add_argument('--res', help="Path to validation resource files, seperated by comma.", default="")
 ## dim specs
@@ -39,6 +40,22 @@ parser.add_argument('--loss', help="The type of loss, boundary", default='bounda
 parser.add_argument('--output_official', help="The path to official format of output", default='')
 #
 parser.add_argument('--verbose', help="Whether to print out every prediction", type=int, default=0)
+
+
+
+def load_hf_model(m, m_hf):
+	if isinstance(m_hf, RobertaForQuestionAnswering):
+		m.encoder.transformer = m_hf.roberta
+		m.classifier.linear[1] = m_hf.qa_outputs
+	elif isinstance(m_hf, DistilBertForQuestionAnswering):
+		m.encoder.transformer = m_hf.distilbert
+		m.classifier.linear[1] = m_hf.qa_outputs
+	elif isinstance(m_hf, BertForQuestionAnswering):
+		m.encoder.transformer = m_hf.bert
+		m.classifier.linear[1] = m_hf.qa_outputs
+	else:
+		raise Exception('unrecognized HF model type {0}'.format(type(hf_m)))
+
 
 def evaluate(opt, shared, m, data):
 
@@ -74,7 +91,7 @@ def evaluate(opt, shared, m, data):
 			output = m.forward(wv_idx)
 
 		# loss
-		batch_loss = loss(output, y_gold, lambd=torch.ones(1))
+		batch_loss = loss(output, y_gold, to_device(torch.ones(1), opt.gpuid))
 
 		# stats
 		val_loss += float(batch_loss.data)
@@ -111,10 +128,14 @@ def main(args):
 	# build model
 	m = Pipeline(opt, shared)
 
-	# initialization
-	print('loading pretrained model from {0}...'.format(opt.load_file))
-	param_dict = load_param_dict('{0}.hdf5'.format(opt.load_file))
-	m.set_param_dict(param_dict)
+	if not opt.is_hf:
+		# initialization
+		print('loading pretrained model from {0}...'.format(opt.load_file))
+		param_dict = load_param_dict('{0}.hdf5'.format(opt.load_file))
+		m.set_param_dict(param_dict)
+	else:
+		m_hf = AutoModelForQuestionAnswering.from_pretrained(opt.load_file)
+		load_hf_model(m, m_hf)
 
 	if opt.fp16 == 1:
 		m.half()
