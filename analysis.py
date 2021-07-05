@@ -169,7 +169,7 @@ def pairup_ex(data):
 		elif key[0][1] == spair[0]:
 			paired[key][1] = ex
 		else:
-			raise Excetion("Something weird happend to this example: ", keys, ex)
+			raise Excetion("Something weird happened to this example: ", keys, ex)
 	return paired
 
 
