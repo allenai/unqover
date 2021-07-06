@@ -75,9 +75,9 @@ where ``[GPUID]`` is the GPU device index. The first command will generate examp
 
 Then, you can get aggregated measurements over those model predictions by:
 ```
-./scripts/aggregate_predictions.sh --m_name robertabase_lm,robertalarge_lm,distilbert_lm,bertbase_lm,bertlarge_lm --d gender,country,ethnicity,religion
-./scripts/aggregate_predictions.sh --m_name robertabase,robertalarge,distilbert,bertbase,bertlarge --d gender,country,ethnicity,religion
-./scripts/aggregate_predictions.sh --m_name robertabase,robertalarge,distilbert,bertbase,bertlarge --extra newsqa --d gender,country,ethnicity,religion
+./scripts/aggregate_predictions.sh --m_name robertabase_lm,robertalarge_lm,distilbert_lm,bertbase_lm,bertlarge_lm --d gender,country,ethnicity,religion --metrics pos_err,attr_err,model
+./scripts/aggregate_predictions.sh --m_name robertabase,robertalarge,distilbert,bertbase,bertlarge --d gender,country,ethnicity,religion --metrics pos_err,attr_err,model
+./scripts/aggregate_predictions.sh --m_name robertabase,robertalarge,distilbert,bertbase,bertlarge --extra newsqa --d gender,country,ethnicity,religion --metrics pos_err,attr_err,model
 ```
 Now, you can jump to [Step 4](#visualization) of this readme for visualization.
 

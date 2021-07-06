@@ -14,6 +14,7 @@ if [ "$1" == "-h" ]; then
   echo "   --d		   A list of dataset types, separated by comma, must be in {gender, country, religion, ethnicity}"
   echo "   --extra	   A filler; specify this if to use source file generated with extra filler, e.g., newsqa"
   echo "   --group	   How prediction scores will be grouped/aggregated, either 'subj_act' or 'subj'"
+  echo "   --metrics		A list of metrics to report, separated by comma"
   echo "   -h		   Print the help message and exit"
   exit 0
 fi
@@ -65,7 +66,7 @@ do
 		echo ">> Input file "${FILE}.output.json
 	
 		python3 analysis.py \
-			--metrics subj_bias,pos_err,attr_err,model \
+			--metrics $metrics \
 			--input ./data/${FILE}.output.json \
 			--group_by ${GROUP_BY} | tee ./data/${FILE}.log.txt
 	done
